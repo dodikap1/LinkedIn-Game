@@ -822,6 +822,12 @@
         }
       }
     };
+    // Remove any existing listeners by cloning the grid
+    if (grid._handler) {
+      grid.removeEventListener('click', grid._handler);
+      grid.removeEventListener('touchend', grid._handler);
+    }
+    grid._handler = handler;
     grid.addEventListener('click', handler);
     grid.addEventListener('touchend', handler);
   }
