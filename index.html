@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>BREACH — Reliance Cyber</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1a2e5e;
+      --navy-dark: #0f1c3a;
+      --navy-mid: #243570;
+      --orange: #f5a623;
+      --orange-dark: #d4891a;
+      --white: #ffffff;
+      --offwhite: #f4f6fb;
+      --threat: #e53e3e;
+      --threat-glow: rgba(229,62,62,0.3);
+      --server: #38a169;
+      --server-glow: rgba(56,161,105,0.3);
+      --firewall: #f5a623;
+      --firewall-glow: rgba(245,166,35,0.25);
+      --cell-bg: #1e3464;
+      --cell-border: #2d4a8a;
+      --grid-bg: #0f1c3a;
+      --muted: #7a90c4;
+      --penalty: #fc8181;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--navy-dark);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    /* ── SCREENS ── */
+    .screen { display: none; min-height: 100vh; flex-direction: column; }
+    .screen.active { display: flex; }
+
+    /* ── NAME SCREEN ── */
+    #screen-name {
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      gap: 2rem;
+    }
+
+    .logo-wrap {
+      text-align: center;
+    }
+
+    .logo-mark {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 1rem;
+    }
+
+    .brand-name {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .game-title {
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .game-title span { color: var(--orange); }
+
+    .game-tagline {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      font-weight: 300;
+    }
+
+    .name-form {
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .name-form label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .name-form input {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      background: var(--navy-mid);
+      border: 1.5px solid var(--cell-border);
+      border-radius: 10px;
+      color: var(--white);
+      font-size: 1.1rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .name-form input:focus { border-color: var(--orange); }
+    .name-form input::placeholder { color: var(--muted); }
+
+    .btn-primary {
+      width: 100%;
+      padding: 1rem;
+      background: var(--orange);
+      color: var(--navy-dark);
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      touch-action: manipulation;
+    }
+
+    .btn-primary:active { background: var(--orange-dark); transform: scale(0.98); }
+
+    .rules-preview {
+      max-width: 320px;
+      background: var(--navy-mid);
+      border: 1px solid var(--cell-border);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+      text-align: left;
+    }
+
+    .rules-preview strong { color: var(--orange); font-weight: 600; }
+
+    /* ── GAME SCREEN ── */
+    #screen-game {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .game-header {
+      background: var(--navy-dark);
+      border-bottom: 1px solid var(--cell-border);
+      padding: 0.8rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .header-brand {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .header-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--white);
+    }
+
+    .header-title span { color: var(--orange); }
+
+    .timer-wrap {
+      text-align: right;
+    }
+
+    .timer {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.5rem;
+      color: var(--orange);
+      line-height: 1;
+    }
+
+    .timer-label {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── STATUS BAR ── */
+    .status-bar {
+      padding: 0.6rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--navy-mid);
+      flex-shrink: 0;
+    }
+
+    .firewalls-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .fw-pip {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      background: var(--firewall);
+      display: inline-block;
+      transition: opacity 0.2s;
+    }
+
+    .fw-pip.used { opacity: 0.2; }
+
+    .puzzle-info {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .penalty-flash {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: var(--threat);
+      color: white;
+      text-align: center;
+      padding: 0.5rem;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      transform: translateY(-100%);
+      transition: transform 0.2s;
+      z-index: 100;
+    }
+
+    .penalty-flash.show { transform: translateY(0); }
+
+    /* ── GRID ── */
+    .grid-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 4px;
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 1;
+    }
+
+    .cell {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      background: var(--cell-bg);
+      border: 1.5px solid var(--cell-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.12s, transform 0.1s, border-color 0.12s;
+      position: relative;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .cell:active { transform: scale(0.93); }
+
+    .cell.threat {
+      background: rgba(229,62,62,0.15);
+      border-color: var(--threat);
+    }
+
+    .cell.server {
+      background: rgba(56,161,105,0.15);
+      border-color: var(--server);
+    }
+
+    .cell.firewall {
+      background: rgba(245,166,35,0.2);
+      border-color: var(--firewall);
+    }
+
+    .cell.firewall-placed {
+      background: rgba(245,166,35,0.3);
+      border-color: var(--firewall);
+      animation: placePulse 0.3s ease;
+    }
+
+    .cell.path {
+      background: rgba(245,166,35,0.08);
+      border-color: rgba(245,166,35,0.3);
+    }
+
+    .cell.blocked-wrong {
+      animation: wrongFlash 0.4s ease;
+    }
+
+    @keyframes placePulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes wrongFlash {
+      0% { background: rgba(229,62,62,0.5); }
+      100% { background: var(--cell-bg); }
+    }
+
+    .cell-icon {
+      font-size: 1.4rem;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    /* threat path indicators */
+    .threat-line {
+      position: absolute;
+      background: rgba(229,62,62,0.2);
+      pointer-events: none;
+      border-radius: 2px;
+    }
+
+    /* ── CONTROLS ── */
+    .controls {
+      padding: 0.8rem 1.2rem 1.2rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-control {
+      padding: 0.75rem 0.5rem;
+      background: var(--navy-mid);
+      border: 1.5px solid var(--cell-border);
+      border-radius: 10px;
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      text-align: center;
+      touch-action: manipulation;
+      transition: background 0.12s, transform 0.1s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .btn-control:active { transform: scale(0.96); background: var(--navy-dark); }
+
+    .btn-control .ctrl-icon { font-size: 1.1rem; }
+    .btn-control .ctrl-label { font-size: 10px; color: var(--muted); }
+
+    .btn-control.hint-btn { border-color: rgba(245,166,35,0.4); }
+    .btn-control.hint-btn .ctrl-icon { color: var(--orange); }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,15,35,0.9);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-overlay.show { display: flex; }
+
+    .modal {
+      background: var(--navy-mid);
+      border: 1.5px solid var(--cell-border);
+      border-radius: 16px;
+      padding: 1.8rem 1.5rem;
+      width: 100%;
+      max-width: 340px;
+      text-align: center;
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.8rem;
+      color: var(--orange);
+    }
+
+    .modal-body {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .modal-body strong { color: var(--white); }
+    .modal-body .highlight { color: var(--orange); font-weight: 600; }
+
+    .modal-score {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 2.5rem;
+      color: var(--orange);
+      margin: 0.5rem 0 1.2rem;
+      line-height: 1;
+    }
+
+    .modal-score-label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .btn-modal {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      border: none;
+      margin-bottom: 0.6rem;
+      touch-action: manipulation;
+      transition: transform 0.1s;
+    }
+
+    .btn-modal:active { transform: scale(0.98); }
+    .btn-modal.primary { background: var(--orange); color: var(--navy-dark); }
+    .btn-modal.secondary { background: transparent; color: var(--muted); border: 1.5px solid var(--cell-border); }
+
+    /* ── LEADERBOARD ── */
+    .leaderboard {
+      margin-top: 1rem;
+      text-align: left;
+    }
+
+    .lb-title {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .lb-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(45,74,138,0.5);
+      font-size: 13px;
+    }
+
+    .lb-rank { color: var(--muted); width: 20px; font-size: 11px; }
+    .lb-name { flex: 1; padding: 0 0.5rem; color: var(--white); }
+    .lb-name.you { color: var(--orange); font-weight: 600; }
+    .lb-time { font-family: 'Share Tech Mono', monospace; color: var(--orange); font-size: 12px; }
+
+    /* ── WIN SCREEN ── */
+    #screen-win {
+      align-items: center;
+      justify-content: flex-start;
+      padding: 2rem 1.5rem;
+      gap: 1.2rem;
+      overflow-y: auto;
+    }
+
+    .win-header { text-align: center; width: 100%; }
+    .win-emoji { font-size: 3rem; margin-bottom: 0.5rem; }
+    .win-title { font-size: 1.8rem; font-weight: 700; letter-spacing: 0.06em; }
+    .win-title span { color: var(--orange); }
+    .win-sub { font-size: 13px; color: var(--muted); margin-top: 0.3rem; }
+
+    .win-time-block { text-align: center; }
+    .win-time-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+    .win-time { font-family: 'Share Tech Mono', monospace; font-size: 3.5rem; color: var(--orange); line-height: 1; }
+    .win-time-sub { font-size: 12px; color: var(--muted); margin-top: 0.3rem; }
+
+    .win-leaderboard {
+      width: 100%;
+      max-width: 340px;
+      background: var(--navy-mid);
+      border: 1px solid var(--cell-border);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+    }
+
+    .win-actions { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 0.6rem; }
+
+    /* ── TUTORIAL OVERLAY ── */
+    #tutorialOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      pointer-events: none;
+    }
+
+    #tutorialOverlay.show { display: block; }
+
+    .tut-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(8,13,30,0.82);
+      pointer-events: all;
+    }
+
+    .tut-tooltip {
+      position: absolute;
+      background: var(--navy-mid);
+      border: 2px solid var(--orange);
+      border-radius: 14px;
+      padding: 1.2rem 1.3rem;
+      max-width: 280px;
+      width: calc(100vw - 2.4rem);
+      pointer-events: all;
+      z-index: 10;
+      box-shadow: 0 0 0 1px rgba(245,166,35,0.2), 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .tut-step-label {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.4rem;
+    }
+
+    .tut-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .tut-body {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+
+    .tut-body strong { color: var(--white); }
+    .tut-body .hl { color: var(--orange); font-weight: 600; }
+
+    .tut-arrow {
+      position: absolute;
+      width: 0; height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+    }
+
+    .tut-arrow.up {
+      top: -10px; left: 50%;
+      transform: translateX(-50%);
+      border-bottom: 10px solid var(--orange);
+    }
+
+    .tut-arrow.down {
+      bottom: -10px; left: 50%;
+      transform: translateX(-50%);
+      border-top: 10px solid var(--orange);
+    }
+
+    .tut-arrow.left {
+      left: -10px; top: 50%;
+      transform: translateY(-50%);
+      border-right: 10px solid var(--orange);
+    }
+
+    .tut-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .tut-btn {
+      flex: 1;
+      padding: 0.65rem 0.5rem;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      border: none;
+      touch-action: manipulation;
+      transition: transform 0.1s;
+    }
+
+    .tut-btn:active { transform: scale(0.97); }
+    .tut-btn.next { background: var(--orange); color: var(--navy-dark); }
+    .tut-btn.skip { background: transparent; color: var(--muted); border: 1.5px solid var(--cell-border); }
+
+    .tut-highlight {
+      position: absolute;
+      border: 2.5px solid var(--orange);
+      border-radius: 10px;
+      box-shadow: 0 0 0 3000px rgba(8,13,30,0.82);
+      pointer-events: none;
+      z-index: 5;
+      transition: all 0.25s ease;
+    }
+
+    .cell.wall {
+      background: #0d1829;
+      border-color: #1a2a45;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .cell.segment-0 { background: rgba(245,166,35,0.35); border-color: #f5a623; }
+    .cell.segment-1 { background: rgba(99,179,237,0.35); border-color: #63b3ed; }
+    .cell.segment-2 { background: rgba(154,230,180,0.35); border-color: #9ae6b4; }
+    .cell.segment-0 .seg-icon, .cell.segment-1 .seg-icon, .cell.segment-2 .seg-icon {
+      font-size: 1rem;
+    }
+    .seg-bar {
+      display: flex;
+      gap: 8px;
+      padding: 0.5rem 1.2rem;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .seg-dot {
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+      transition: opacity 0.2s;
+      border: 2px solid transparent;
+    }
+    .seg-dot.seg-orange { background: rgba(245,166,35,0.2); border-color: #f5a623; color: #f5a623; }
+    .seg-dot.seg-blue   { background: rgba(99,179,237,0.2);  border-color: #63b3ed; color: #63b3ed; }
+    .seg-dot.seg-green  { background: rgba(154,230,180,0.2); border-color: #9ae6b4; color: #9ae6b4; }
+    .seg-dot.used { opacity: 0.25; }
+    .seg-dot.active { transform: scale(1.15); }
+    .seg-label { font-size: 11px; color: var(--muted); margin-left: 4px; }
+    .seg-maxlen { font-size: 10px; color: var(--muted); margin-left: auto; letter-spacing:0.05em; }
+  </style>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+<!-- PENALTY FLASH -->
+<div class="penalty-flash" id="penaltyFlash">+5 seconds — wrong move</div>
+
+<!-- ══ SCREEN: NAME ══ -->
+<div class="screen active" id="screen-name">
+  <div class="logo-wrap">
+    <svg class="logo-mark" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="56" height="56" rx="12" fill="#1a2e5e"/>
+      <path d="M14 28 L22 20 L28 26 L34 20 L42 28 L34 36 L28 30 L22 36 Z" stroke="#f5a623" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+      <circle cx="28" cy="28" r="3" fill="#f5a623"/>
+    </svg>
+    <p class="brand-name">Reliance Cyber</p>
+    <h1 class="game-title">BRE<span>ACH</span></h1>
+    <p class="game-tagline">Daily network defence puzzle</p>
+  </div>
+
+  <div class="name-form">
+    <label for="playerName">Your name</label>
+    <input type="text" id="playerName" placeholder="Enter your name" maxlength="20" autocomplete="off">
+    <button class="btn-primary" onclick="startGame()">Start puzzle</button>
+  </div>
+
+  <div class="rules-preview">
+    <strong>How to play:</strong> Threats are heading for the server. Place your <span style="color:var(--orange)">firewalls</span> 🔥 to block every threat's path before they reach it. You only have <strong>3 firewalls</strong> — use them wisely. Tap a cell to place or remove a firewall. Block all threats to win.
+  </div>
+</div>
+
+<!-- ══ SCREEN: GAME ══ -->
+<div class="screen" id="screen-game">
+
+  <div class="game-header">
+    <div>
+      <div class="header-brand">Reliance Cyber</div>
+      <div class="header-title">BRE<span>ACH</span></div>
+    </div>
+    <div class="timer-wrap">
+      <div class="timer" id="timerDisplay">00:00</div>
+      <div class="timer-label">Time</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div class="seg-bar" style="padding:0; flex:1; display:flex; align-items:center; gap:8px;">
+      <div class="seg-dot seg-orange" id="seg0dot">1</div>
+      <div class="seg-dot seg-blue"   id="seg1dot">2</div>
+      <div class="seg-dot seg-green"  id="seg2dot">3</div>
+      <span class="seg-label">Draw segments to block threats</span>
+      <span class="seg-maxlen">Max 3 cells each</span>
+    </div>
+    <div class="puzzle-info" style="flex-shrink:0; margin-left:8px;">Puzzle #<span id="puzzleNum">1</span></div>
+  </div>
+
+  <div class="grid-wrap">
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="controls" style="grid-template-columns: repeat(3,1fr); gap:8px;">
+    <button class="btn-control" onclick="clearLastSegment()">
+      <span class="ctrl-icon">↩️</span>
+      <span class="ctrl-label">Clear last</span>
+    </button>
+    <button class="btn-control" onclick="restartPuzzle()">
+      <span class="ctrl-icon">🔄</span>
+      <span class="ctrl-label">Restart</span>
+    </button>
+    <button class="btn-control" onclick="startTutorial()" style="border-color:rgba(245,166,35,0.3);">
+      <span class="ctrl-icon" style="color:var(--orange);">❓</span>
+      <span class="ctrl-label">How to play</span>
+    </button>
+    <button class="btn-control" onclick="checkSolution()" style="grid-column:span 3; background:var(--orange); border-color:var(--orange); color:var(--navy-dark); font-weight:700;">
+      <span class="ctrl-icon">✅</span>
+      <span class="ctrl-label" style="color:var(--navy-dark);">Check solution</span>
+    </button>
+  </div>
+
+</div>
+
+<!-- ══ SCREEN: WIN ══ -->
+<div class="screen" id="screen-win">
+  <div class="win-header">
+    <div class="win-emoji">🛡️</div>
+    <div class="win-title">BREACH <span>BLOCKED</span></div>
+    <div class="win-sub" id="winPlayerName"></div>
+  </div>
+
+  <div class="win-time-block">
+    <div class="win-time-label">Your time</div>
+    <div class="win-time" id="winTime">00:00</div>
+    <div class="win-time-sub" id="winRank"></div>
+  </div>
+
+  <div class="win-leaderboard">
+    <div class="lb-title">Today's leaderboard</div>
+    <div id="winLeaderboard"></div>
+  </div>
+
+  <div class="win-actions">
+    <button class="btn-modal primary" onclick="shareResult()">Share result 📤</button>
+    <button class="btn-modal secondary" onclick="tryAgain()">Try again 🔄</button>
+    <button class="btn-modal secondary" onclick="nextPuzzle()">Next puzzle →</button>
+    <button class="btn-modal secondary" onclick="goHome()">Play again tomorrow</button>
+  </div>
+</div>
+
+<!-- RULES MODAL -->
+<div class="modal-overlay" id="rulesModal">
+  <div class="modal">
+    <div class="modal-title">How to play</div>
+    <div class="modal-body">
+      <p>A threat actor is targeting the server. <strong>Three threats</strong> are moving in straight lines toward it.</p>
+      <br>
+      <p>You have <span class="highlight">3 firewall blocks</span> to stop them. Tap any cell on a threat's path to place a firewall there.</p>
+      <br>
+      <p>If a threat reaches the server before you block it, you get a <span class="highlight">+5 second penalty</span>.</p>
+      <br>
+      <p>Block all three threats to complete the puzzle. <strong>Fastest time wins.</strong></p>
+    </div>
+    <button class="btn-modal primary" onclick="closeModal('rulesModal')">Got it</button>
+  </div>
+</div>
+
+<script>
+  // ── STATE ──
+  let playerName = '';
+  let timerInterval = null;
+  let elapsedMs = 0;
+  let timerStarted = false;
+  let gameWon = false;
+  let currentPuzzleIndex = -1;
+
+  // Segments: 3 total, each is array of "r,c" strings in draw order
+  const MAX_SEGMENTS = 3;
+  const MAX_SEG_LEN = 3;
+  let segments = [[], [], []];      // drawn cells per segment
+  let activeSegment = 0;            // which segment is being drawn (0,1,2)
+  let isDragging = false;
+  let lastDragCell = null;
+
+  const SEG_COLORS = ['segment-0','segment-1','segment-2'];
+  const SEG_EMOJIS = ['🔥','💧','⚡'];
+
+  function getDayIndex() {
+    const start = new Date('2026-01-01');
+    const now = new Date();
+    return Math.floor((now - start) / 86400000);
+  }
+
+  const PUZZLES = [
+    {
+      server: {row:3, col:3},
+      threats: [
+        {row:0, col:3, dir:'down',  emoji:'☠️'},
+        {row:3, col:0, dir:'right', emoji:'🦠'},
+        {row:5, col:3, dir:'up',    emoji:'⚡'},
+        {row:0, col:1, dir:'down',  emoji:'🔴'},
+      ],
+      walls: [{row:3,col:2},{row:5,col:3}],
+      firewalls: 3,
+      scenario: 'Quad-vector APT attack'
+    },
+    {
+      server: {row:2, col:3},
+      threats: [
+        {row:0, col:3, dir:'down',  emoji:'☠️'},
+        {row:2, col:0, dir:'right', emoji:'🦠'},
+        {row:5, col:3, dir:'up',    emoji:'⚡'},
+        {row:0, col:1, dir:'down',  emoji:'🔴'},
+      ],
+      walls: [{row:2,col:2},{row:4,col:3}],
+      firewalls: 3,
+      scenario: 'Ransomware multi-vector push'
+    },
+    {
+      server: {row:2, col:2},
+      threats: [
+        {row:0, col:2, dir:'down',  emoji:'☠️'},
+        {row:2, col:5, dir:'left',  emoji:'🦠'},
+        {row:5, col:2, dir:'up',    emoji:'⚡'},
+        {row:5, col:4, dir:'up',    emoji:'🔴'},
+      ],
+      walls: [{row:4,col:2},{row:1,col:4}],
+      firewalls: 3,
+      scenario: 'Zero-day coordinated strike'
+    },
+    {
+      server: {row:3, col:2},
+      threats: [
+        {row:0, col:2, dir:'down',  emoji:'☠️'},
+        {row:3, col:5, dir:'left',  emoji:'🦠'},
+        {row:5, col:2, dir:'up',    emoji:'⚡'},
+        {row:5, col:4, dir:'up',    emoji:'🔴'},
+      ],
+      walls: [{row:2,col:2},{row:5,col:2}],
+      firewalls: 3,
+      scenario: 'Supply chain intrusion attempt'
+    },
+    {
+      server: {row:2, col:4},
+      threats: [
+        {row:0, col:4, dir:'down',  emoji:'☠️'},
+        {row:2, col:0, dir:'right', emoji:'🦠'},
+        {row:5, col:4, dir:'up',    emoji:'⚡'},
+        {row:0, col:2, dir:'down',  emoji:'🔴'},
+      ],
+      walls: [{row:2,col:3},{row:4,col:4}],
+      firewalls: 3,
+      scenario: 'Phishing payload cluster'
+    },
+  ];
+
+  let currentPuzzle = null;
+  let threatPaths = [];
+  let cellStates = [];
+
+  // ── START ──
+  function startGame() {
+    playerName = document.getElementById('playerName').value.trim() || 'Agent';
+    showScreen('screen-game');
+    loadPuzzle();
+    setTimeout(checkFirstVisit, 400);
+  }
+
+  function loadPuzzle() {
+    const idx = currentPuzzleIndex >= 0 ? currentPuzzleIndex : getDayIndex() % PUZZLES.length;
+    currentPuzzle = PUZZLES[idx];
+    document.getElementById('puzzleNum').textContent = idx + 1;
+    segments = [[], [], []];
+    activeSegment = 0;
+    isDragging = false;
+    lastDragCell = null;
+    gameWon = false;
+    timerStarted = false;
+    elapsedMs = 0;
+    if (timerInterval) clearInterval(timerInterval);
+    updateTimerDisplay();
+    buildThreatPaths();
+    buildGrid();
+    updateSegmentUI();
+    // Attach drag listeners
+    const g = document.getElementById('grid');
+    g.onmousedown  = onDragStart;
+    g.ontouchstart = onDragStart;
+    g.onmousemove  = onDragMove;
+    g.ontouchmove  = onDragMove;
+    g.onmouseup    = onDragEnd;
+    g.ontouchend   = onDragEnd;
+    document.onmouseup = onDragEnd;
+  }
+
+  function buildThreatPaths() {
+    threatPaths = currentPuzzle.threats.map(t => {
+      const path = new Set();
+      const sr = currentPuzzle.server.row, sc = currentPuzzle.server.col;
+      const dr = t.dir==='down'?1:t.dir==='up'?-1:0;
+      const dc = t.dir==='right'?1:t.dir==='left'?-1:0;
+      let r = t.row + dr, c = t.col + dc;
+      while (r >= 0 && r < 6 && c >= 0 && c < 6) {
+        if (r === sr && c === sc) break;
+        path.add(r + ',' + c);
+        r += dr; c += dc;
+      }
+      return path;
+    });
+  }
+
+  function buildGrid() {
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    cellStates = [];
+    const wallSet = new Set((currentPuzzle.walls||[]).map(w => w.row+','+w.col));
+
+    for (let r = 0; r < 6; r++) {
+      cellStates[r] = [];
+      for (let c = 0; c < 6; c++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.dataset.r = r;
+        cell.dataset.c = c;
+
+        const isServer = currentPuzzle.server.row===r && currentPuzzle.server.col===c;
+        const threatIdx = currentPuzzle.threats.findIndex(t => t.row===r && t.col===c);
+        const isWall = wallSet.has(r+','+c);
+        const isOnPath = threatPaths.some(p => p.has(r+','+c)) && !isServer && threatIdx===-1 && !isWall;
+
+        let icon = '', type = 'empty';
+        if (isServer)       { type='server'; cell.classList.add('server'); icon='🖥️'; }
+        else if (threatIdx>=0){ type='threat'; cell.classList.add('threat'); icon=currentPuzzle.threats[threatIdx].emoji; }
+        else if (isWall)    { type='wall';   cell.classList.add('wall');   icon='🧱'; }
+        else if (isOnPath)  { type='path';   cell.classList.add('path'); }
+
+        if (icon) { const s=document.createElement('span'); s.className='cell-icon'; s.textContent=icon; cell.appendChild(s); }
+        cellStates[r][c] = { type, segIndex: -1 };
+        grid.appendChild(cell);
+      }
+    }
+  }
+
+  // ── DRAG DRAWING ──
+  function getCellFromEvent(e) {
+    const touch = e.touches ? e.touches[0] : e;
+    const el = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (!el) return null;
+    const cell = el.closest ? el.closest('.cell') : null;
+    if (!cell) return null;
+    return { r: parseInt(cell.dataset.r), c: parseInt(cell.dataset.c), el: cell };
+  }
+
+  function isAdjacent(r1, c1, r2, c2) {
+    return (Math.abs(r1-r2) + Math.abs(c1-c2)) === 1;
+  }
+
+  function onDragStart(e) {
+    e.preventDefault();
+    const info = getCellFromEvent(e);
+    if (!info) return;
+    const { r, c } = info;
+    const state = cellStates[r][c];
+    if (!state || state.type === 'server' || state.type === 'threat' || state.type === 'wall') return;
+
+    // If cell already belongs to a segment, do nothing
+    if (state.segIndex >= 0) return;
+
+    // Find next available segment
+    const nextSeg = segments.findIndex(s => s.length === 0);
+    if (nextSeg === -1) { showPenalty('All 3 segments drawn — clear one first'); return; }
+    if (nextSeg !== activeSegment) activeSegment = nextSeg;
+
+    if (!timerStarted) startTimer();
+
+    isDragging = true;
+    lastDragCell = { r, c };
+    addCellToSegment(r, c, activeSegment);
+  }
+
+  function onDragMove(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    const info = getCellFromEvent(e);
+    if (!info) return;
+    const { r, c } = info;
+    if (lastDragCell && r === lastDragCell.r && c === lastDragCell.c) return;
+
+    const state = cellStates[r][c];
+    if (!state || state.type === 'server' || state.type === 'threat' || state.type === 'wall') return;
+    if (state.segIndex >= 0) return;
+
+    // Must be adjacent to last cell
+    if (!isAdjacent(r, c, lastDragCell.r, lastDragCell.c)) return;
+
+    // Max length check
+    if (segments[activeSegment].length >= MAX_SEG_LEN) {
+      showPenalty('Max ' + MAX_SEG_LEN + ' cells per segment');
+      isDragging = false;
+      activeSegment = segments.findIndex(s => s.length === 0);
+      return;
+    }
+
+    lastDragCell = { r, c };
+    addCellToSegment(r, c, activeSegment);
+  }
+
+  function onDragEnd(e) {
+    if (!isDragging) return;
+    isDragging = false;
+    // Move to next empty segment
+    const nextSeg = segments.findIndex(s => s.length === 0);
+    activeSegment = nextSeg >= 0 ? nextSeg : MAX_SEGMENTS;
+    lastDragCell = null;
+    updateSegmentUI();
+    if (navigator.vibrate) navigator.vibrate(30);
+  }
+
+  function addCellToSegment(r, c, segIdx) {
+    const key = r + ',' + c;
+    segments[segIdx].push(key);
+    cellStates[r][c].segIndex = segIdx;
+
+    const cells = document.getElementById('grid').querySelectorAll('.cell');
+    const cell = cells[r * 6 + c];
+    cell.className = 'cell ' + SEG_COLORS[segIdx];
+    const span = document.createElement('span');
+    span.className = 'cell-icon seg-icon';
+    span.textContent = SEG_EMOJIS[segIdx];
+    cell.innerHTML = '';
+    cell.appendChild(span);
+    updateSegmentUI();
+  }
+
+  function clearLastSegment() {
+    // Find last drawn segment
+    let lastFilled = -1;
+    for (let i = MAX_SEGMENTS-1; i >= 0; i--) {
+      if (segments[i].length > 0) { lastFilled = i; break; }
+    }
+    if (lastFilled === -1) return;
+    // Clear it
+    segments[lastFilled].forEach(key => {
+      const [r, c] = key.split(',').map(Number);
+      cellStates[r][c].segIndex = -1;
+      redrawCell(r, c);
+    });
+    segments[lastFilled] = [];
+    activeSegment = lastFilled;
+    updateSegmentUI();
+  }
+
+  function redrawCell(r, c) {
+    const cells = document.getElementById('grid').querySelectorAll('.cell');
+    const cell = cells[r * 6 + c];
+    const state = cellStates[r][c];
+    const wallSet = new Set((currentPuzzle.walls||[]).map(w => w.row+','+w.col));
+    cell.className = 'cell';
+    cell.innerHTML = '';
+
+    if (state.type === 'server') { cell.classList.add('server'); cell.innerHTML='<span class="cell-icon">🖥️</span>'; }
+    else if (state.type === 'threat') { cell.classList.add('threat'); const t=currentPuzzle.threats.find(t=>t.row===r&&t.col===c); cell.innerHTML='<span class="cell-icon">'+(t?t.emoji:'☠️')+'</span>'; }
+    else if (state.type === 'wall') { cell.classList.add('wall'); cell.innerHTML='<span class="cell-icon">🧱</span>'; }
+    else if (threatPaths.some(p=>p.has(r+','+c))) { cell.classList.add('path'); }
+  }
+
+  function updateSegmentUI() {
+    const dots = ['seg0dot','seg1dot','seg2dot'];
+    dots.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.remove('used','active');
+      if (segments[i].length > 0) el.classList.add('used');
+      if (i === activeSegment && segments[i].length < MAX_SEG_LEN) el.classList.add('active');
+      el.textContent = segments[i].length > 0 ? segments[i].length : (i+1);
+    });
+  }
+
+  // ── TIMER ──
+  function startTimer() {
+    timerStarted = true;
+    const startTime = Date.now() - elapsedMs;
+    timerInterval = setInterval(() => { elapsedMs = Date.now() - startTime; updateTimerDisplay(); }, 100);
+  }
+
+  function stopTimer() { if (timerInterval) clearInterval(timerInterval); }
+
+  function updateTimerDisplay() {
+    const total = Math.floor(elapsedMs / 1000);
+    const mins = Math.floor(total/60).toString().padStart(2,'0');
+    const secs = (total%60).toString().padStart(2,'0');
+    document.getElementById('timerDisplay').textContent = mins+':'+secs;
+  }
+
+  function getTimeString() {
+    const total = Math.floor(elapsedMs/1000);
+    return Math.floor(total/60).toString().padStart(2,'0')+':'+( total%60).toString().padStart(2,'0');
+  }
+
+  // ── CHECK ──
+  function checkSolution() {
+    if (!timerStarted) { showPenalty('Draw your segments first!'); return; }
+
+    // All placed segment cells
+    const placedCells = new Set();
+    segments.forEach(seg => seg.forEach(k => placedCells.add(k)));
+
+    const results = currentPuzzle.threats.map((t, i) => {
+      const path = threatPaths[i];
+      return [...path].some(k => placedCells.has(k));
+    });
+
+    const allBlocked = results.every(r => r === true);
+
+    if (allBlocked) {
+      gameWon = true;
+      stopTimer();
+      fireConfetti();
+      setTimeout(() => showWinScreen(), 1200);
+    } else {
+      results.forEach((blocked, i) => {
+        if (!blocked) {
+          threatPaths[i].forEach(key => {
+            const [r, c] = key.split(',').map(Number);
+            const state = cellStates[r] && cellStates[r][c];
+            if (state && state.type !== 'server' && state.type !== 'threat' && state.type !== 'wall' && state.segIndex === -1) {
+              const cells = document.getElementById('grid').querySelectorAll('.cell');
+              const cell = cells[r * 6 + c];
+              if (cell) { cell.style.background='rgba(229,62,62,0.45)'; setTimeout(()=>{ cell.style.background=''; },800); }
+            }
+          });
+        }
+      });
+      elapsedMs += 5000;
+      showPenalty('A threat is getting through! +5s');
+    }
+  }
+
+  // ── CONFETTI ──
+  function fireConfetti() {
+    if (typeof confetti === 'undefined') return;
+    const colors = ['#f5a623','#1a2e5e','#ffffff','#63b3ed','#9ae6b4'];
+    confetti({ particleCount: 120, spread: 80, origin: {y:0.5}, colors });
+    setTimeout(() => confetti({ particleCount: 60, spread: 100, origin: {y:0.3}, colors }), 300);
+    setTimeout(() => confetti({ particleCount: 80, spread: 60, origin: {y:0.6}, colors }), 600);
+  }
+
+  // ── RESTART ──
+  function restartPuzzle() {
+    segments = [[], [], []];
+    activeSegment = 0;
+    isDragging = false;
+    lastDragCell = null;
+    gameWon = false;
+    buildGrid();
+    updateSegmentUI();
+  }
+
+  // ── PENALTY ──
+  function showPenalty(msg) {
+    const el = document.getElementById('penaltyFlash');
+    el.textContent = msg;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 1800);
+    if (navigator.vibrate) navigator.vibrate(80);
+  }
+
+  // ── WIN ──
+  async function showWinScreen() {
+    const timeStr = getTimeString();
+    const score = { name: playerName, time: elapsedMs, timeStr, day: getDayIndex() };
+    let scores = [];
+    try { const stored = await window.storage.get('breach_scores_'+getDayIndex()); if (stored) scores = JSON.parse(stored.value); } catch(e) {}
+    scores.push(score);
+    scores.sort((a,b) => a.time - b.time);
+    try { await window.storage.set('breach_scores_'+getDayIndex(), JSON.stringify(scores), true); } catch(e) {}
+    const rank = scores.findIndex(s => s.name===playerName && s.time===elapsedMs) + 1;
+    document.getElementById('winPlayerName').textContent = 'Well done, ' + playerName;
+    document.getElementById('winTime').textContent = timeStr;
+    document.getElementById('winRank').textContent = rank===1?'🥇 Number 1 today!':rank===2?'🥈 2nd place':rank===3?'🥉 3rd place':'#'+rank+' on the leaderboard';
+    const lb = document.getElementById('winLeaderboard');
+    lb.innerHTML = scores.slice(0,8).map((s,i) => {
+      const isYou = s.name===playerName && s.time===elapsedMs;
+      return '<div class="lb-row"><span class="lb-rank">'+(i+1)+'</span><span class="lb-name'+(isYou?' you':'')+'">'+s.name+(isYou?' (you)':'')+'</span><span class="lb-time">'+s.timeStr+'</span></div>';
+    }).join('');
+    showScreen('screen-win');
+  }
+
+  function shareResult() {
+    const timeStr = getTimeString();
+    const text = 'BREACH by Reliance Cyber | Puzzle #'+(getDayIndex()+1)+' | '+timeStr+' | Can you beat my time?';
+    if (navigator.share) navigator.share({text});
+    else navigator.clipboard.writeText(text).then(()=>showPenalty('Copied to clipboard!'));
+  }
+
+  function tryAgain() {
+    elapsedMs = 0; timerStarted = false;
+    if (timerInterval) clearInterval(timerInterval);
+    updateTimerDisplay();
+    loadPuzzle();
+    showScreen('screen-game');
+  }
+
+  function nextPuzzle() {
+    const currentIdx = currentPuzzleIndex >= 0 ? currentPuzzleIndex : getDayIndex() % PUZZLES.length;
+    currentPuzzleIndex = (currentIdx + 1) % PUZZLES.length;
+    elapsedMs = 0; timerStarted = false;
+    if (timerInterval) clearInterval(timerInterval);
+    updateTimerDisplay();
+    loadPuzzle();
+    showScreen('screen-game');
+  }
+
+  function goHome() { showScreen('screen-name'); }
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  // ── TUTORIAL ──
+  const TUTORIAL_STEPS = [
+    { target: null, title: "Welcome to BREACH 🛡️", body: "A quick walkthrough. Skip anytime or tap ❓ to return.", arrow: null, pos: "center" },
+    { target: "server", title: "Protect the server 🖥️", body: "Do not let any threat reach it.", arrow: "down", pos: "above" },
+    { target: "threat", title: "Threats incoming ☠️", body: "Each threat moves in a <span class='hl'>straight line</span> toward the server.", arrow: "down", pos: "above" },
+    { target: "path", title: "Draw your firewall", body: "<span class='hl'>Drag your finger</span> across path cells to draw a connected firewall segment. Max 3 cells per segment.", arrow: "down", pos: "above" },
+    { target: "seg0dot", title: "3 segments total", body: "You get <span class='hl'>3 segments</span> to block 4 threats. Find where paths cross — one segment can block two threats at once.", arrow: "up", pos: "below" },
+    { target: "controls", title: "Controls", body: "<strong>↩️ Clear last</strong> — removes your last segment<br><br><strong>🔄 Restart</strong> — clears everything<br><br><strong>✅ Check</strong> — submits your solution", arrow: "up", pos: "below" },
+  ];
+
+  let tutStep = 0, tutActive = false;
+
+  function checkFirstVisit() {
+    try { if (!localStorage.getItem('breach_tutorial_seen')) startTutorial(); } catch(e) {}
+  }
+
+  function startTutorial() {
+    tutStep = 0; tutActive = true;
+    document.getElementById('tutorialOverlay').classList.add('show');
+    renderTutStep();
+  }
+
+  function tutNext() {
+    tutStep++;
+    if (tutStep >= TUTORIAL_STEPS.length) endTutorial();
+    else renderTutStep();
+  }
+
+  function skipTutorial() { endTutorial(); }
+
+  function endTutorial() {
+    tutActive = false;
+    document.getElementById('tutorialOverlay').classList.remove('show');
+    document.getElementById('tutHighlight').style.display = 'none';
+    try { localStorage.setItem('breach_tutorial_seen','1'); } catch(e) {}
+  }
+
+  function renderTutStep() {
+    const step = TUTORIAL_STEPS[tutStep];
+    const total = TUTORIAL_STEPS.length;
+    document.getElementById('tutStepLabel').textContent = 'Step '+(tutStep+1)+' of '+total;
+    document.getElementById('tutTitle').textContent = step.title;
+    document.getElementById('tutBody').innerHTML = step.body;
+    document.getElementById('tutNextBtn').textContent = tutStep===total-1 ? 'Got it ✓' : 'Next →';
+
+    const highlight = document.getElementById('tutHighlight');
+    const tooltip = document.getElementById('tutTooltip');
+    const arrow = document.getElementById('tutArrow');
+    arrow.className = 'tut-arrow';
+
+    if (step.pos==='center' || !step.target) {
+      highlight.style.display='none';
+      tooltip.style.top='50%'; tooltip.style.left='50%'; tooltip.style.transform='translate(-50%,-50%)'; tooltip.style.bottom='';
+      arrow.style.display='none'; return;
+    }
+
+    arrow.style.display='block'; tooltip.style.transform='';
+    let targetEl = null;
+    if (step.target==='server') targetEl = document.querySelector('.cell.server');
+    else if (step.target==='threat') targetEl = document.querySelector('.cell.threat');
+    else if (step.target==='path') targetEl = document.querySelector('.cell.path');
+    else if (step.target==='seg0dot') targetEl = document.getElementById('seg0dot');
+    else if (step.target==='controls') targetEl = document.querySelector('.controls');
+
+    if (!targetEl) { highlight.style.display='none'; tooltip.style.top='50%'; tooltip.style.left='50%'; tooltip.style.transform='translate(-50%,-50%)'; return; }
+
+    const rect = targetEl.getBoundingClientRect();
+    const pad = 6;
+    highlight.style.display='block';
+    highlight.style.top=(rect.top-pad)+'px'; highlight.style.left=(rect.left-pad)+'px';
+    highlight.style.width=(rect.width+pad*2)+'px'; highlight.style.height=(rect.height+pad*2)+'px';
+    highlight.style.borderRadius = step.target==='controls'?'12px':'10px';
+
+    const vw = window.innerWidth;
+    const tooltipW = Math.min(280, vw-38);
+
+    if (step.pos==='above') {
+      tooltip.style.top = Math.max(8, rect.top-pad-16-180)+'px'; tooltip.style.bottom='';
+      tooltip.style.left = Math.max(12, Math.min(vw-tooltipW-12, rect.left+rect.width/2-tooltipW/2))+'px';
+      arrow.className='tut-arrow down';
+    } else {
+      tooltip.style.top = (rect.bottom+pad+16)+'px'; tooltip.style.bottom='';
+      tooltip.style.left = Math.max(12, Math.min(vw-tooltipW-12, rect.left+rect.width/2-tooltipW/2))+'px';
+      arrow.className='tut-arrow up';
+    }
+  }
+
+  document.getElementById('playerName').addEventListener('keydown', e => { if (e.key==='Enter') startGame(); });
+</script>
+
+<!-- TUTORIAL OVERLAY -->
+<div id="tutorialOverlay">
+  <div class="tut-backdrop" onclick="skipTutorial()"></div>
+  <div class="tut-highlight" id="tutHighlight"></div>
+  <div class="tut-tooltip" id="tutTooltip">
+    <div class="tut-arrow" id="tutArrow"></div>
+    <div class="tut-step-label" id="tutStepLabel">Step 1 of 5</div>
+    <div class="tut-title" id="tutTitle"></div>
+    <div class="tut-body" id="tutBody"></div>
+    <div class="tut-buttons">
+      <button class="tut-btn skip" onclick="skipTutorial()">Skip</button>
+      <button class="tut-btn next" id="tutNextBtn" onclick="tutNext()">Next →</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
