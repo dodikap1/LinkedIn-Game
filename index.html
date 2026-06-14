@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>BREACH — Reliance Cyber</title>
+  <title>BREACH</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -17,20 +17,19 @@
       --white: #ffffff;
       --offwhite: #f4f6fb;
       --threat: #e53e3e;
-      --threat-glow: rgba(229,62,62,0.3);
+      --threat-fast: #fc8181;
+      --threat-slow: #d69e2e;
       --server: #38a169;
-      --server-glow: rgba(56,161,105,0.3);
+      --server-glow: rgba(56,161,105,0.4);
       --firewall: #f5a623;
-      --firewall-glow: rgba(245,166,35,0.25);
       --cell-bg: #1e3464;
       --cell-border: #2d4a8a;
       --grid-bg: #0f1c3a;
       --muted: #7a90c4;
-      --penalty: #fc8181;
     }
 
     html, body {
-      height: 100%;
+      min-height: 100vh;
       background: var(--navy-dark);
       color: var(--white);
       font-family: 'Inter', sans-serif;
@@ -39,51 +38,32 @@
       touch-action: manipulation;
     }
 
-    /* ── SCREENS ── */
     .screen { display: none; min-height: 100vh; flex-direction: column; }
     .screen.active { display: flex; }
 
-    /* ── NAME SCREEN ── */
     #screen-name {
       align-items: center;
       justify-content: center;
       padding: 2rem 1.5rem;
-      gap: 2rem;
-    }
-
-    .logo-wrap {
-      text-align: center;
-    }
-
-    .logo-mark {
-      width: 56px;
-      height: 56px;
-      margin: 0 auto 1rem;
-    }
-
-    .brand-name {
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
+      gap: 1.5rem;
     }
 
     .game-title {
-      font-size: 3rem;
+      font-size: 3.5rem;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       color: var(--white);
       line-height: 1;
+      text-align: center;
     }
-
     .game-title span { color: var(--orange); }
 
     .game-tagline {
       font-size: 13px;
       color: var(--muted);
-      margin-top: 0.5rem;
-      font-weight: 300;
+      margin-top: 0.4rem;
+      text-align: center;
+      letter-spacing: 0.05em;
     }
 
     .name-form {
@@ -91,7 +71,7 @@
       max-width: 320px;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.8rem;
     }
 
     .name-form label {
@@ -108,12 +88,11 @@
       border: 1.5px solid var(--cell-border);
       border-radius: 10px;
       color: var(--white);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-family: 'Inter', sans-serif;
       outline: none;
       transition: border-color 0.15s;
     }
-
     .name-form input:focus { border-color: var(--orange); }
     .name-form input::placeholder { color: var(--muted); }
 
@@ -126,13 +105,10 @@
       border-radius: 10px;
       font-size: 1rem;
       font-weight: 700;
-      font-family: 'Inter', sans-serif;
       letter-spacing: 0.05em;
       cursor: pointer;
       transition: background 0.15s, transform 0.1s;
-      touch-action: manipulation;
     }
-
     .btn-primary:active { background: var(--orange-dark); transform: scale(0.98); }
 
     .rules-preview {
@@ -144,54 +120,35 @@
       font-size: 13px;
       color: var(--muted);
       line-height: 1.7;
-      text-align: left;
     }
-
     .rules-preview strong { color: var(--orange); font-weight: 600; }
+    .rules-preview .row { display: flex; gap: 6px; align-items: center; margin-top: 4px; }
 
-    /* ── GAME SCREEN ── */
-    #screen-game {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
+    /* GAME */
     .game-header {
       background: var(--navy-dark);
       border-bottom: 1px solid var(--cell-border);
-      padding: 0.8rem 1.2rem;
+      padding: 0.7rem 1rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-shrink: 0;
     }
 
-    .header-brand {
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
     .header-title {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
-      color: var(--white);
+      letter-spacing: 0.1em;
     }
-
     .header-title span { color: var(--orange); }
 
-    .timer-wrap {
-      text-align: right;
-    }
-
+    .timer-wrap { text-align: right; }
     .timer {
       font-family: 'Share Tech Mono', monospace;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       color: var(--orange);
       line-height: 1;
     }
-
     .timer-label {
       font-size: 9px;
       letter-spacing: 0.1em;
@@ -199,39 +156,115 @@
       color: var(--muted);
     }
 
-    /* ── STATUS BAR ── */
     .status-bar {
-      padding: 0.6rem 1.2rem;
+      padding: 0.55rem 1rem;
+      background: var(--navy-mid);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: var(--navy-mid);
       flex-shrink: 0;
-    }
-
-    .firewalls-left {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .fw-pip {
-      width: 14px;
-      height: 14px;
-      border-radius: 3px;
-      background: var(--firewall);
-      display: inline-block;
-      transition: opacity 0.2s;
-    }
-
-    .fw-pip.used { opacity: 0.2; }
-
-    .puzzle-info {
       font-size: 11px;
       color: var(--muted);
       letter-spacing: 0.05em;
+    }
+
+    .fw-counter {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .fw-pip {
+      width: 12px; height: 12px;
+      border-radius: 3px;
+      background: var(--firewall);
+      opacity: 1;
+      transition: opacity 0.2s;
+    }
+    .fw-pip.used { opacity: 0.2; }
+
+    .threats-counter { font-weight: 600; color: var(--white); }
+
+    .grid-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.8rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 3px;
+      width: 100%;
+      max-width: 450px;
+      aspect-ratio: 1;
+    }
+
+    .cell {
+      aspect-ratio: 1;
+      border-radius: 5px;
+      background: var(--cell-bg);
+      border: 1px solid var(--cell-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.1s, transform 0.08s, border-color 0.1s;
+      position: relative;
+      touch-action: manipulation;
+      user-select: none;
+      font-size: 1rem;
+    }
+
+    .cell:active { transform: scale(0.92); }
+
+    .cell.server {
+      background: rgba(56,161,105,0.18);
+      border-color: var(--server);
+      box-shadow: 0 0 12px var(--server-glow);
+    }
+
+    .cell.firewall {
+      background: rgba(245,166,35,0.3);
+      border-color: var(--firewall);
+      animation: placePulse 0.25s ease;
+    }
+
+    @keyframes placePulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    .threat-icon {
+      position: absolute;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.45s cubic-bezier(0.45, 0, 0.55, 1);
+      pointer-events: none;
+      z-index: 5;
+      filter: drop-shadow(0 0 4px rgba(229,62,62,0.6));
+    }
+    .cell.path-hint {
+      background: rgba(229,62,62,0.12);
+      border-color: rgba(229,62,62,0.35);
+    }
+    .threat-icon * { pointer-events: none; }
+    .cell span { pointer-events: none; }
+    .threat-icon.fast  { filter: drop-shadow(0 0 6px rgba(252,129,129,0.8)); }
+    .threat-icon.slow  { filter: drop-shadow(0 0 3px rgba(214,158,46,0.6)); }
+    .threat-icon.destroyed {
+      animation: explode 0.5s ease forwards;
+    }
+
+    @keyframes explode {
+      0%   { transform: scale(1); opacity: 1; }
+      40%  { transform: scale(1.5); opacity: 1; filter: drop-shadow(0 0 12px var(--orange)); }
+      100% { transform: scale(0); opacity: 0; }
     }
 
     .penalty-flash {
@@ -243,154 +276,50 @@
       padding: 0.5rem;
       font-size: 13px;
       font-weight: 600;
-      letter-spacing: 0.05em;
       transform: translateY(-100%);
       transition: transform 0.2s;
       z-index: 100;
     }
-
     .penalty-flash.show { transform: translateY(0); }
 
-    /* ── GRID ── */
-    .grid-wrap {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1.2rem;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 4px;
-      width: 100%;
-      max-width: 400px;
-      aspect-ratio: 1;
-    }
-
-    .cell {
-      aspect-ratio: 1;
-      border-radius: 8px;
-      background: var(--cell-bg);
-      border: 1.5px solid var(--cell-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 0.12s, transform 0.1s, border-color 0.12s;
-      position: relative;
-      touch-action: manipulation;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
-
-    .cell:active { transform: scale(0.93); }
-
-    .cell.threat {
-      background: rgba(229,62,62,0.15);
-      border-color: var(--threat);
-    }
-
-    .cell.server {
-      background: rgba(56,161,105,0.15);
-      border-color: var(--server);
-    }
-
-    .cell.firewall {
-      background: rgba(245,166,35,0.2);
-      border-color: var(--firewall);
-    }
-
-    .cell.firewall-placed {
-      background: rgba(245,166,35,0.3);
-      border-color: var(--firewall);
-      animation: placePulse 0.3s ease;
-    }
-
-    .cell.path {
-      background: rgba(245,166,35,0.08);
-      border-color: rgba(245,166,35,0.3);
-    }
-
-    .cell.blocked-wrong {
-      animation: wrongFlash 0.4s ease;
-    }
-
-    @keyframes placePulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes wrongFlash {
-      0% { background: rgba(229,62,62,0.5); }
-      100% { background: var(--cell-bg); }
-    }
-
-    .cell-icon {
-      font-size: 1.4rem;
-      line-height: 1;
-      pointer-events: none;
-    }
-
-    /* threat path indicators */
-    .threat-line {
-      position: absolute;
-      background: rgba(229,62,62,0.2);
-      pointer-events: none;
-      border-radius: 2px;
-    }
-
-    /* ── CONTROLS ── */
     .controls {
-      padding: 0.8rem 1.2rem 1.2rem;
+      padding: 0.7rem 1rem 1rem;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
       flex-shrink: 0;
     }
 
     .btn-control {
-      padding: 0.75rem 0.5rem;
+      padding: 0.7rem 0.5rem;
       background: var(--navy-mid);
       border: 1.5px solid var(--cell-border);
       border-radius: 10px;
       color: var(--white);
-      font-size: 0.75rem;
+      font-size: 0.85rem;
       font-weight: 500;
-      font-family: 'Inter', sans-serif;
-      letter-spacing: 0.04em;
       cursor: pointer;
       text-align: center;
-      touch-action: manipulation;
       transition: background 0.12s, transform 0.1s;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 3px;
+      justify-content: center;
+      gap: 6px;
     }
-
     .btn-control:active { transform: scale(0.96); background: var(--navy-dark); }
+    .btn-control.help { border-color: rgba(245,166,35,0.3); color: var(--orange); }
 
-    .btn-control .ctrl-icon { font-size: 1.1rem; }
-    .btn-control .ctrl-label { font-size: 10px; color: var(--muted); }
-
-    .btn-control.hint-btn { border-color: rgba(245,166,35,0.4); }
-    .btn-control.hint-btn .ctrl-icon { color: var(--orange); }
-
-    /* ── MODAL ── */
+    /* MODAL */
     .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(10,15,35,0.9);
+      background: rgba(10,15,35,0.92);
       z-index: 200;
       align-items: center;
       justify-content: center;
       padding: 1.5rem;
     }
-
     .modal-overlay.show { display: flex; }
 
     .modal {
@@ -402,7 +331,6 @@
       max-width: 340px;
       text-align: center;
     }
-
     .modal-title {
       font-size: 1.3rem;
       font-weight: 700;
@@ -410,33 +338,22 @@
       margin-bottom: 0.8rem;
       color: var(--orange);
     }
-
     .modal-body {
       font-size: 14px;
       color: var(--muted);
       line-height: 1.7;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.2rem;
       text-align: left;
     }
-
     .modal-body strong { color: var(--white); }
-    .modal-body .highlight { color: var(--orange); font-weight: 600; }
-
-    .modal-score {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 2.5rem;
-      color: var(--orange);
-      margin: 0.5rem 0 1.2rem;
-      line-height: 1;
+    .modal-body .hl { color: var(--orange); font-weight: 600; }
+    .modal-body .row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 8px 0;
     }
-
-    .modal-score-label {
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.3rem;
-    }
+    .modal-body .row .icon { font-size: 1.1rem; flex-shrink: 0; }
 
     .btn-modal {
       width: 100%;
@@ -444,24 +361,52 @@
       border-radius: 10px;
       font-size: 0.95rem;
       font-weight: 600;
-      font-family: 'Inter', sans-serif;
       cursor: pointer;
       border: none;
-      margin-bottom: 0.6rem;
-      touch-action: manipulation;
+      margin-bottom: 0.5rem;
       transition: transform 0.1s;
     }
-
     .btn-modal:active { transform: scale(0.98); }
     .btn-modal.primary { background: var(--orange); color: var(--navy-dark); }
     .btn-modal.secondary { background: transparent; color: var(--muted); border: 1.5px solid var(--cell-border); }
 
-    /* ── LEADERBOARD ── */
-    .leaderboard {
-      margin-top: 1rem;
-      text-align: left;
+    /* WIN/LOSE */
+    #screen-win, #screen-lose {
+      align-items: center;
+      justify-content: flex-start;
+      padding: 2rem 1.5rem;
+      gap: 1.2rem;
+      overflow-y: auto;
     }
 
+    .result-header { text-align: center; }
+    .result-emoji { font-size: 3rem; margin-bottom: 0.5rem; }
+    .result-title { font-size: 1.8rem; font-weight: 700; letter-spacing: 0.06em; }
+    .result-title span { color: var(--orange); }
+    .result-title.lose span { color: var(--threat); }
+    .result-sub { font-size: 13px; color: var(--muted); margin-top: 0.3rem; }
+
+    .result-time {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 3.5rem;
+      color: var(--orange);
+      line-height: 1;
+    }
+    .result-time-label {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .leaderboard {
+      width: 100%;
+      max-width: 340px;
+      background: var(--navy-mid);
+      border: 1px solid var(--cell-border);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+    }
     .lb-title {
       font-size: 10px;
       letter-spacing: 0.15em;
@@ -469,7 +414,6 @@
       color: var(--muted);
       margin-bottom: 0.6rem;
     }
-
     .lb-row {
       display: flex;
       align-items: center;
@@ -478,298 +422,147 @@
       border-bottom: 1px solid rgba(45,74,138,0.5);
       font-size: 13px;
     }
-
     .lb-rank { color: var(--muted); width: 20px; font-size: 11px; }
     .lb-name { flex: 1; padding: 0 0.5rem; color: var(--white); }
     .lb-name.you { color: var(--orange); font-weight: 600; }
     .lb-time { font-family: 'Share Tech Mono', monospace; color: var(--orange); font-size: 12px; }
 
-    /* ── WIN SCREEN ── */
-    #screen-win {
-      align-items: center;
-      justify-content: flex-start;
-      padding: 2rem 1.5rem;
-      gap: 1.2rem;
-      overflow-y: auto;
-    }
-
-    .win-header { text-align: center; width: 100%; }
-    .win-emoji { font-size: 3rem; margin-bottom: 0.5rem; }
-    .win-title { font-size: 1.8rem; font-weight: 700; letter-spacing: 0.06em; }
-    .win-title span { color: var(--orange); }
-    .win-sub { font-size: 13px; color: var(--muted); margin-top: 0.3rem; }
-
-    .win-time-block { text-align: center; }
-    .win-time-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
-    .win-time { font-family: 'Share Tech Mono', monospace; font-size: 3.5rem; color: var(--orange); line-height: 1; }
-    .win-time-sub { font-size: 12px; color: var(--muted); margin-top: 0.3rem; }
-
-    .win-leaderboard {
+    .result-actions {
       width: 100%;
       max-width: 340px;
-      background: var(--navy-mid);
-      border: 1px solid var(--cell-border);
-      border-radius: 12px;
-      padding: 1rem 1.2rem;
-    }
-
-    .win-actions { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 0.6rem; }
-
-    /* ── TUTORIAL OVERLAY ── */
-    #tutorialOverlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 500;
-      pointer-events: none;
-    }
-
-    #tutorialOverlay.show { display: block; }
-
-    .tut-backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(8,13,30,0.82);
-      pointer-events: all;
-    }
-
-    .tut-tooltip {
-      position: absolute;
-      background: var(--navy-mid);
-      border: 2px solid var(--orange);
-      border-radius: 14px;
-      padding: 1.2rem 1.3rem;
-      max-width: 280px;
-      width: calc(100vw - 2.4rem);
-      pointer-events: all;
-      z-index: 10;
-      box-shadow: 0 0 0 1px rgba(245,166,35,0.2), 0 8px 32px rgba(0,0,0,0.5);
-    }
-
-    .tut-step-label {
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 0.4rem;
-    }
-
-    .tut-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 0.5rem;
-      line-height: 1.3;
-    }
-
-    .tut-body {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.65;
-      margin-bottom: 1rem;
-    }
-
-    .tut-body strong { color: var(--white); }
-    .tut-body .hl { color: var(--orange); font-weight: 600; }
-
-    .tut-arrow {
-      position: absolute;
-      width: 0; height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-    }
-
-    .tut-arrow.up {
-      top: -10px; left: 50%;
-      transform: translateX(-50%);
-      border-bottom: 10px solid var(--orange);
-    }
-
-    .tut-arrow.down {
-      bottom: -10px; left: 50%;
-      transform: translateX(-50%);
-      border-top: 10px solid var(--orange);
-    }
-
-    .tut-arrow.left {
-      left: -10px; top: 50%;
-      transform: translateY(-50%);
-      border-right: 10px solid var(--orange);
-    }
-
-    .tut-buttons {
       display: flex;
-      gap: 8px;
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
-    .tut-btn {
-      flex: 1;
-      padding: 0.65rem 0.5rem;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      font-family: 'Inter', sans-serif;
-      cursor: pointer;
-      border: none;
-      touch-action: manipulation;
-      transition: transform 0.1s;
-    }
-
-    .tut-btn:active { transform: scale(0.97); }
-    .tut-btn.next { background: var(--orange); color: var(--navy-dark); }
-    .tut-btn.skip { background: transparent; color: var(--muted); border: 1.5px solid var(--cell-border); }
-
-    .tut-highlight {
-      position: absolute;
-      border: 2.5px solid var(--orange);
-      border-radius: 10px;
-      box-shadow: 0 0 0 3000px rgba(8,13,30,0.82);
-      pointer-events: none;
-      z-index: 5;
-      transition: all 0.25s ease;
-    }
-
-    .cell.wall {
-      background: #0d1829;
-      border-color: #1a2a45;
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-
-    .cell.segment-0 { background: rgba(245,166,35,0.35); border-color: #f5a623; }
-    .cell.segment-1 { background: rgba(99,179,237,0.35); border-color: #63b3ed; }
-    .cell.segment-2 { background: rgba(154,230,180,0.35); border-color: #9ae6b4; }
-    .cell.segment-0 .seg-icon, .cell.segment-1 .seg-icon, .cell.segment-2 .seg-icon {
-      font-size: 1rem;
-    }
-    .seg-bar {
+    .legend-bar {
       display: flex;
-      gap: 8px;
-      padding: 0.5rem 1.2rem;
-      align-items: center;
+      justify-content: space-around;
+      padding: 0.4rem 1rem;
+      background: var(--navy-dark);
+      border-bottom: 1px solid var(--cell-border);
       flex-shrink: 0;
+      gap: 8px;
     }
-    .seg-dot {
-      width: 28px; height: 28px;
-      border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 700;
-      transition: opacity 0.2s;
-      border: 2px solid transparent;
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: var(--muted);
     }
-    .seg-dot.seg-orange { background: rgba(245,166,35,0.2); border-color: #f5a623; color: #f5a623; }
-    .seg-dot.seg-blue   { background: rgba(99,179,237,0.2);  border-color: #63b3ed; color: #63b3ed; }
-    .seg-dot.seg-green  { background: rgba(154,230,180,0.2); border-color: #9ae6b4; color: #9ae6b4; }
-    .seg-dot.used { opacity: 0.25; }
-    .seg-dot.active { transform: scale(1.15); }
-    .seg-label { font-size: 11px; color: var(--muted); margin-left: 4px; }
-    .seg-maxlen { font-size: 10px; color: var(--muted); margin-left: auto; letter-spacing:0.05em; }
+    .leg-ico { font-size: 13px; }
+    .leg-label { font-weight: 600; color: var(--white); letter-spacing: 0.05em; }
+    .leg-dots {
+      color: var(--threat);
+      letter-spacing: 1px;
+      font-size: 9px;
+    }
   </style>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-<!-- PENALTY FLASH -->
-<div class="penalty-flash" id="penaltyFlash">+5 seconds — wrong move</div>
+<div class="penalty-flash" id="penaltyFlash"></div>
 
-<!-- ══ SCREEN: NAME ══ -->
+<!-- NAME SCREEN -->
 <div class="screen active" id="screen-name">
-  <div class="logo-wrap">
-    <svg class="logo-mark" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="56" height="56" rx="12" fill="#1a2e5e"/>
-      <path d="M14 28 L22 20 L28 26 L34 20 L42 28 L34 36 L28 30 L22 36 Z" stroke="#f5a623" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
-      <circle cx="28" cy="28" r="3" fill="#f5a623"/>
-    </svg>
-    <p class="brand-name">Reliance Cyber</p>
+  <div>
     <h1 class="game-title">BRE<span>ACH</span></h1>
-    <p class="game-tagline">Daily network defence puzzle</p>
+    <p class="game-tagline">Real-time network defence</p>
   </div>
 
   <div class="name-form">
     <label for="playerName">Your name</label>
     <input type="text" id="playerName" placeholder="Enter your name" maxlength="20" autocomplete="off">
-    <button class="btn-primary" onclick="startGame()">Start puzzle</button>
+    <button class="btn-primary" onclick="startGame()">Start round</button>
   </div>
 
   <div class="rules-preview">
-    <strong>How to play:</strong> Threats are heading for the server. Place your <span style="color:var(--orange)">firewalls</span> 🔥 to block every threat's path before they reach it. You only have <strong>3 firewalls</strong> — use them wisely. Tap a cell to place or remove a firewall. Block all threats to win.
+    <strong>How to play:</strong> Threats march toward the server when you place your first 🔥 firewall. Block them all before any reaches the server. Hit <strong>Submit</strong> to lock in your time and let the simulation play out.
+    <div class="row">⚡ <span>Fast (3 cells/sec)</span></div>
+    <div class="row">🦠 <span>Standard (2 cells/sec)</span></div>
+    <div class="row">🐌 <span>Slow (1 cell/sec)</span></div>
   </div>
 </div>
 
-<!-- ══ SCREEN: GAME ══ -->
+<!-- GAME SCREEN -->
 <div class="screen" id="screen-game">
-
   <div class="game-header">
     <div>
-      <div class="header-brand">Reliance Cyber</div>
       <div class="header-title">BRE<span>ACH</span></div>
+      <div style="font-size:10px; color:var(--muted); letter-spacing:0.1em;">Puzzle #<span id="puzzleNum">1</span></div>
     </div>
     <div class="timer-wrap">
       <div class="timer" id="timerDisplay">00:00</div>
-      <div class="timer-label">Time</div>
+      <div class="timer-label" id="timerLabel">Tap to begin</div>
     </div>
   </div>
 
   <div class="status-bar">
-    <div class="seg-bar" style="padding:0; flex:1; display:flex; align-items:center; gap:8px;">
-      <div class="seg-dot seg-orange" id="seg0dot">1</div>
-      <div class="seg-dot seg-blue"   id="seg1dot">2</div>
-      <div class="seg-dot seg-green"  id="seg2dot">3</div>
-      <span class="seg-label">Draw segments to block threats</span>
-      <span class="seg-maxlen">Max 3 cells each</span>
+    <div class="fw-counter">
+      <span id="fwPips"></span>
+      <span id="fwLabel" style="margin-left:6px;">8 firewalls</span>
     </div>
-    <div class="puzzle-info" style="flex-shrink:0; margin-left:8px;">Puzzle #<span id="puzzleNum">1</span></div>
+    <div><span class="threats-counter" id="threatsActive">0</span><span> threats</span></div>
+  </div>
+
+  <div class="legend-bar">
+    <div class="legend-item"><span class="leg-ico">⚡</span><span class="leg-label">Fast</span><span class="leg-dots">●●●</span></div>
+    <div class="legend-item"><span class="leg-ico">🦠</span><span class="leg-label">Std</span><span class="leg-dots">●●</span></div>
+    <div class="legend-item"><span class="leg-ico">🐌</span><span class="leg-label">Slow</span><span class="leg-dots">●</span></div>
   </div>
 
   <div class="grid-wrap">
     <div class="grid" id="grid"></div>
   </div>
 
-  <div class="controls" style="grid-template-columns: repeat(3,1fr); gap:8px;">
-    <button class="btn-control" onclick="clearLastSegment()">
-      <span class="ctrl-icon">↩️</span>
-      <span class="ctrl-label">Clear last</span>
-    </button>
-    <button class="btn-control" onclick="restartPuzzle()">
-      <span class="ctrl-icon">🔄</span>
-      <span class="ctrl-label">Restart</span>
-    </button>
-    <button class="btn-control" onclick="startTutorial()" style="border-color:rgba(245,166,35,0.3);">
-      <span class="ctrl-icon" style="color:var(--orange);">❓</span>
-      <span class="ctrl-label">How to play</span>
-    </button>
-    <button class="btn-control" onclick="checkSolution()" style="grid-column:span 3; background:var(--orange); border-color:var(--orange); color:var(--navy-dark); font-weight:700;">
-      <span class="ctrl-icon">✅</span>
-      <span class="ctrl-label" style="color:var(--navy-dark);">Check solution</span>
-    </button>
+  <div class="controls" style="grid-template-columns: 1fr 1fr 1fr;">
+    <button class="btn-control" onclick="showHintOnce()" style="border-color: rgba(245,166,35,0.3);"><span style="color:var(--orange);">💡 Hint +3s</span></button>
+    <button class="btn-control" onclick="restartGame()">🔄 Restart</button>
+    <button class="btn-control help" onclick="showRules()">❓ Rules</button>
+    <button class="btn-control" id="submitBtn" onclick="submitDefence()" style="grid-column: span 3; background: var(--orange); border-color: var(--orange); color: var(--navy-dark); font-weight: 700; font-size: 0.95rem;">✅ Submit defence</button>
   </div>
-
 </div>
 
-<!-- ══ SCREEN: WIN ══ -->
+<!-- WIN SCREEN -->
 <div class="screen" id="screen-win">
-  <div class="win-header">
-    <div class="win-emoji">🛡️</div>
-    <div class="win-title">BREACH <span>BLOCKED</span></div>
-    <div class="win-sub" id="winPlayerName"></div>
+  <div class="result-header">
+    <div class="result-emoji">🛡️</div>
+    <div class="result-title">BREACH <span>BLOCKED</span></div>
+    <div class="result-sub" id="winPlayerName"></div>
   </div>
-
-  <div class="win-time-block">
-    <div class="win-time-label">Your time</div>
-    <div class="win-time" id="winTime">00:00</div>
-    <div class="win-time-sub" id="winRank"></div>
+  <div style="text-align:center;">
+    <div class="result-time-label">Your time</div>
+    <div class="result-time" id="winTime">00:00</div>
+    <div class="result-sub" id="winRank"></div>
   </div>
-
-  <div class="win-leaderboard">
+  <div class="leaderboard">
     <div class="lb-title">Today's leaderboard</div>
     <div id="winLeaderboard"></div>
   </div>
-
-  <div class="win-actions">
+  <div class="result-actions">
     <button class="btn-modal primary" onclick="shareResult()">Share result 📤</button>
-    <button class="btn-modal secondary" onclick="tryAgain()">Try again 🔄</button>
+    <button class="btn-modal secondary" onclick="restartGame()">Play again 🔄</button>
     <button class="btn-modal secondary" onclick="nextPuzzle()">Next puzzle →</button>
-    <button class="btn-modal secondary" onclick="goHome()">Play again tomorrow</button>
+    <button class="btn-modal secondary" onclick="goHome()">Home</button>
+  </div>
+</div>
+
+<!-- LOSE SCREEN -->
+<div class="screen" id="screen-lose">
+  <div class="result-header">
+    <div class="result-emoji">💥</div>
+    <div class="result-title lose">BREACH <span>SUCCESSFUL</span></div>
+    <div class="result-sub">A threat reached the server</div>
+  </div>
+  <div style="text-align:center;">
+    <div class="result-time-label">You held out for</div>
+    <div class="result-time" id="loseTime">00:00</div>
+    <div class="result-sub" id="loseStats"></div>
+  </div>
+  <div class="result-actions">
+    <button class="btn-modal primary" onclick="restartGame()">Try again 🔄</button>
+    <button class="btn-modal secondary" onclick="goHome()">Home</button>
   </div>
 </div>
 
@@ -778,576 +571,586 @@
   <div class="modal">
     <div class="modal-title">How to play</div>
     <div class="modal-body">
-      <p>A threat actor is targeting the server. <strong>Three threats</strong> are moving in straight lines toward it.</p>
-      <br>
-      <p>You have <span class="highlight">3 firewall blocks</span> to stop them. Tap any cell on a threat's path to place a firewall there.</p>
-      <br>
-      <p>If a threat reaches the server before you block it, you get a <span class="highlight">+5 second penalty</span>.</p>
-      <br>
-      <p>Block all three threats to complete the puzzle. <strong>Fastest time wins.</strong></p>
+      <p>Threats <strong>navigate toward the server</strong>. They start moving the moment you place your first firewall — and every 2 seconds they step closer.</p><p style="margin-top:8px;">Tap any cell to drop a 🔥 firewall. When a threat steps onto a firewall, both are destroyed.</p><p style="margin-top:8px;">Hit <span class="hl">Submit</span> when you're confident your defence will hold — your timer stops immediately and the simulation finishes.</p><p style="margin-top:8px;">Need help? The 💡 Hint button briefly shows where each threat will step next, but it adds +3 seconds to your time.</p>
+      <p style="margin-top:8px;">When a threat hits a firewall, <span class="hl">both are destroyed</span>.</p>
+      <p style="margin-top:10px;"><strong>Threat speeds:</strong></p>
+      <div class="row"><span class="icon">⚡</span><span><strong>Fast</strong> — moves 3 cells per second</span></div>
+      <div class="row"><span class="icon">🦠</span><span><strong>Standard</strong> — moves 2 cells per second</span></div>
+      <div class="row"><span class="icon">🐌</span><span><strong>Slow</strong> — moves 1 cell per second</span></div>
+      <p style="margin-top:10px;">You have <span class="hl">8 firewalls</span> to stop them all. Use them wisely — block faster threats first.</p>
+      <p style="margin-top:10px;"><strong>Win:</strong> Destroy every threat.<br><strong>Lose:</strong> Any threat reaches the server.</p>
     </div>
-    <button class="btn-modal primary" onclick="closeModal('rulesModal')">Got it</button>
+    <button class="btn-modal primary" onclick="closeRules()">Got it</button>
   </div>
 </div>
 
 <script>
   // ── STATE ──
   let playerName = '';
-  let timerInterval = null;
-  let elapsedMs = 0;
-  let timerStarted = false;
-  let gameWon = false;
+  let roundToken = 0;
   let currentPuzzleIndex = -1;
+  let elapsedMs = 0;
+  let timerInterval = null;
+  let tickInterval = null;
+  let gameOver = false;
+  let won = false;
 
-  // Segments: 3 total, each is array of "r,c" strings in draw order
-  const MAX_SEGMENTS = 3;
-  const MAX_SEG_LEN = 3;
-  let segments = [[], [], []];      // drawn cells per segment
-  let activeSegment = 0;            // which segment is being drawn (0,1,2)
-  let isDragging = false;
-  let lastDragCell = null;
+  let GRID_SIZE = 8;
+  let SERVER_POS = { r: 3, c: 3 };
+  let firewallsLeft = 8;
+  let firewallsPlaced = []; // [{r,c}]
+  let threats = []; // {r,c,dir,speed,emoji,id,destroyed}
+  let tickCount = 0;
+  let nextThreatId = 0;
 
-  const SEG_COLORS = ['segment-0','segment-1','segment-2'];
-  const SEG_EMOJIS = ['🔥','💧','⚡'];
+  // ── INIT ──
+  function startGame() {
+    playerName = document.getElementById('playerName').value.trim() || 'Agent';
+    initRound();
+    document.getElementById('puzzleNum').textContent = (currentPuzzleIndex >= 0 ? currentPuzzleIndex : getDayIndex()) + 1;
+    showScreen('screen-game');
+  }
 
   function getDayIndex() {
     const start = new Date('2026-01-01');
-    const now = new Date();
-    return Math.floor((now - start) / 86400000);
+    return Math.floor((new Date() - start) / 86400000);
   }
 
-  const PUZZLES = [
-    {
-      server: {row:3, col:3},
-      threats: [
-        {row:0, col:3, dir:'down',  emoji:'☠️'},
-        {row:3, col:0, dir:'right', emoji:'🦠'},
-        {row:5, col:3, dir:'up',    emoji:'⚡'},
-        {row:0, col:1, dir:'down',  emoji:'🔴'},
-      ],
-      walls: [{row:3,col:2},{row:5,col:3}],
-      firewalls: 3,
-      scenario: 'Quad-vector APT attack'
-    },
-    {
-      server: {row:2, col:3},
-      threats: [
-        {row:0, col:3, dir:'down',  emoji:'☠️'},
-        {row:2, col:0, dir:'right', emoji:'🦠'},
-        {row:5, col:3, dir:'up',    emoji:'⚡'},
-        {row:0, col:1, dir:'down',  emoji:'🔴'},
-      ],
-      walls: [{row:2,col:2},{row:4,col:3}],
-      firewalls: 3,
-      scenario: 'Ransomware multi-vector push'
-    },
-    {
-      server: {row:2, col:2},
-      threats: [
-        {row:0, col:2, dir:'down',  emoji:'☠️'},
-        {row:2, col:5, dir:'left',  emoji:'🦠'},
-        {row:5, col:2, dir:'up',    emoji:'⚡'},
-        {row:5, col:4, dir:'up',    emoji:'🔴'},
-      ],
-      walls: [{row:4,col:2},{row:1,col:4}],
-      firewalls: 3,
-      scenario: 'Zero-day coordinated strike'
-    },
-    {
-      server: {row:3, col:2},
-      threats: [
-        {row:0, col:2, dir:'down',  emoji:'☠️'},
-        {row:3, col:5, dir:'left',  emoji:'🦠'},
-        {row:5, col:2, dir:'up',    emoji:'⚡'},
-        {row:5, col:4, dir:'up',    emoji:'🔴'},
-      ],
-      walls: [{row:2,col:2},{row:5,col:2}],
-      firewalls: 3,
-      scenario: 'Supply chain intrusion attempt'
-    },
-    {
-      server: {row:2, col:4},
-      threats: [
-        {row:0, col:4, dir:'down',  emoji:'☠️'},
-        {row:2, col:0, dir:'right', emoji:'🦠'},
-        {row:5, col:4, dir:'up',    emoji:'⚡'},
-        {row:0, col:2, dir:'down',  emoji:'🔴'},
-      ],
-      walls: [{row:2,col:3},{row:4,col:4}],
-      firewalls: 3,
-      scenario: 'Phishing payload cluster'
-    },
-  ];
-
-  let currentPuzzle = null;
-  let threatPaths = [];
-  let cellStates = [];
-
-  // ── START ──
-  function startGame() {
-    playerName = document.getElementById('playerName').value.trim() || 'Agent';
-    showScreen('screen-game');
-    loadPuzzle();
-    setTimeout(checkFirstVisit, 400);
-  }
-
-  function loadPuzzle() {
-    const idx = currentPuzzleIndex >= 0 ? currentPuzzleIndex : getDayIndex() % PUZZLES.length;
-    currentPuzzle = PUZZLES[idx];
-    document.getElementById('puzzleNum').textContent = idx + 1;
-    segments = [[], [], []];
-    activeSegment = 0;
-    isDragging = false;
-    lastDragCell = null;
-    gameWon = false;
-    timerStarted = false;
+  function initRound() {
+    // Reset all intervals first
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    if (tickInterval)  { clearInterval(tickInterval);  tickInterval  = null; }
+    if (previewInterval) { clearInterval(previewInterval); previewInterval = null; }
+    // Reset state
+    roundToken++;
     elapsedMs = 0;
-    if (timerInterval) clearInterval(timerInterval);
-    updateTimerDisplay();
-    buildThreatPaths();
+    firewallsLeft = 8;
+    firewallsPlaced = [];
+    threats = [];
+    tickCount = 0;
+    nextThreatId = 0;
+    gameOver = false;
+    won = false;
+    simulating = false;
+    // Reset DOM
+    document.getElementById('timerDisplay').textContent = '00:00';
+    const sb = document.getElementById('submitBtn');
+    if (sb) { sb.style.opacity = '1'; sb.textContent = '✅ Submit defence'; }
+    const tl = document.getElementById('timerLabel');
+    if (tl) tl.textContent = 'Tap to begin';
+    // Clear hint highlights
+    document.querySelectorAll('.cell').forEach(c => { c.classList.remove('path-hint'); c.classList.remove('firewall'); });
+
+    // Daily seed (or stepped puzzle index if browsing)
+    const seed = currentPuzzleIndex >= 0 ? currentPuzzleIndex : getDayIndex();
+    const puzzleNumEl = document.getElementById('puzzleNum');
+    if (puzzleNumEl) puzzleNumEl.textContent = seed + 1;
+    const rng = mulberry32(seed * 1000 + 7);
+
+    // Server position (centre-ish)
+    SERVER_POS = { r: 3 + Math.floor(rng() * 2), c: 3 + Math.floor(rng() * 2) };
+
+    // Generate threats: 8 total, mix of speeds
+    // 2 fast, 3 standard, 3 slow
+    const threatTypes = [
+      { speed: 3, emoji: '⚡', cls: 'fast'  },
+      { speed: 3, emoji: '⚡', cls: 'fast'  },
+      { speed: 2, emoji: '🦠', cls: 'std'   },
+      { speed: 2, emoji: '🦠', cls: 'std'   },
+      { speed: 2, emoji: '🦠', cls: 'std'   },
+      { speed: 1, emoji: '🐌', cls: 'slow'  },
+      { speed: 1, emoji: '🐌', cls: 'slow'  },
+      { speed: 1, emoji: '🐌', cls: 'slow'  },
+    ];
+
+    // Shuffle
+    for (let i = threatTypes.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [threatTypes[i], threatTypes[j]] = [threatTypes[j], threatTypes[i]];
+    }
+
+    // Place each threat on an edge — unique cells, minimum distance from server
+    const used = new Set();
+    const minDist = 4; // chebyshev distance
+    threatTypes.forEach(t => {
+      let r, c, attempts = 0;
+      while (attempts < 200) {
+        attempts++;
+        const edge = Math.floor(rng() * 4);
+        if (edge === 0) { r = 0;             c = Math.floor(rng() * GRID_SIZE); }
+        if (edge === 1) { r = GRID_SIZE - 1; c = Math.floor(rng() * GRID_SIZE); }
+        if (edge === 2) { r = Math.floor(rng() * GRID_SIZE); c = 0; }
+        if (edge === 3) { r = Math.floor(rng() * GRID_SIZE); c = GRID_SIZE - 1; }
+        const key = r + ',' + c;
+        if (used.has(key)) continue;
+        const dist = Math.max(Math.abs(r - SERVER_POS.r), Math.abs(c - SERVER_POS.c));
+        if (dist < minDist) continue;
+        used.add(key);
+        break;
+      }
+      threats.push({
+        id: nextThreatId++,
+        r, c,
+        speed: t.speed,
+        emoji: t.emoji,
+        cls: t.cls,
+        destroyed: false
+      });
+    });
+
     buildGrid();
-    updateSegmentUI();
-    // Attach drag listeners
-    const g = document.getElementById('grid');
-    g.onmousedown  = onDragStart;
-    g.ontouchstart = onDragStart;
-    g.onmousemove  = onDragMove;
-    g.ontouchmove  = onDragMove;
-    g.onmouseup    = onDragEnd;
-    g.ontouchend   = onDragEnd;
-    document.onmouseup = onDragEnd;
+    renderThreats();
+    updateFwUI();
+    updateThreatCount();
+
+    // Start timers
+    if (timerInterval) clearInterval(timerInterval);
+    if (tickInterval) clearInterval(tickInterval);
+    // Timers start when first firewall is placed
   }
 
-  function buildThreatPaths() {
-    threatPaths = currentPuzzle.threats.map(t => {
-      const path = new Set();
-      const sr = currentPuzzle.server.row, sc = currentPuzzle.server.col;
-      const dr = t.dir==='down'?1:t.dir==='up'?-1:0;
-      const dc = t.dir==='right'?1:t.dir==='left'?-1:0;
-      let r = t.row + dr, c = t.col + dc;
-      while (r >= 0 && r < 6 && c >= 0 && c < 6) {
-        if (r === sr && c === sc) break;
-        path.add(r + ',' + c);
-        r += dr; c += dc;
-      }
-      return path;
+  function startTimers() {
+    if (timerInterval) return;
+    document.getElementById('timerLabel').textContent = 'Time';
+    const startT = Date.now() - elapsedMs;
+    timerInterval = setInterval(() => {
+      elapsedMs = Date.now() - startT;
+      updateTimerDisplay();
+    }, 100);
+    // Start moving threats every 2 seconds — they're real, can lose the game
+    if (tickInterval) clearInterval(tickInterval);
+    tickInterval = setInterval(liveTick, 3000);
+  }
+
+  function liveTick() {
+    if (gameOver || simulating) return;
+    threats.forEach(t => {
+      if (t.destroyed) return;
+      t.stepsRemaining = t.speed;
     });
+    processNextSubstep(0, roundToken);
+  }
+
+  function processNextSubstep(stepIndex, token) {
+    if (token !== roundToken) return;
+    if (gameOver || simulating) return;
+    if (stepIndex >= 3) return; // max 3 substeps per tick (= max speed)
+    let anyMoved = false;
+    threats.forEach(t => {
+      if (t.destroyed) return;
+      if (t.stepsRemaining <= 0) return;
+      stepThreatTowardServer(t);
+      t.stepsRemaining--;
+      anyMoved = true;
+      if (t.r === SERVER_POS.r && t.c === SERVER_POS.c) {
+        loseGame();
+        return;
+      }
+      const fwIdx = firewallsPlaced.findIndex(f => f.r === t.r && f.c === t.c);
+      if (fwIdx >= 0) {
+        t.destroyed = true;
+        firewallsPlaced.splice(fwIdx, 1);
+        const cells = document.getElementById('grid').querySelectorAll('.cell');
+        cells[t.r * GRID_SIZE + t.c].classList.remove('firewall');
+        if (navigator.vibrate) navigator.vibrate(40);
+      }
+    });
+    renderThreats();
+    updateThreatCount();
+    updateFwUI();
+    if (threats.every(t => t.destroyed)) {
+      winGame();
+      return;
+    }
+    if (anyMoved) {
+      setTimeout(() => processNextSubstep(stepIndex + 1, token), 350);
+    }
+  }
+
+  function stepThreatTowardServer(t) {
+    const dr = SERVER_POS.r - t.r, dc = SERVER_POS.c - t.c;
+    let stepR = 0, stepC = 0;
+    if (Math.abs(dr) > Math.abs(dc)) stepR = Math.sign(dr);
+    else if (Math.abs(dc) > Math.abs(dr)) stepC = Math.sign(dc);
+    else if (dr !== 0 || dc !== 0) {
+      if (t.id % 2 === 0) stepR = Math.sign(dr);
+      else stepC = Math.sign(dc);
+    }
+    t.r += stepR; t.c += stepC;
+  }
+
+  function mulberry32(a) {
+    return function() {
+      a |= 0; a = a + 0x6D2B79F5 | 0;
+      let t = a;
+      t = Math.imul(t ^ t >>> 15, t | 1);
+      t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    }
   }
 
   function buildGrid() {
     const grid = document.getElementById('grid');
     grid.innerHTML = '';
-    cellStates = [];
-    const wallSet = new Set((currentPuzzle.walls||[]).map(w => w.row+','+w.col));
-
-    for (let r = 0; r < 6; r++) {
-      cellStates[r] = [];
-      for (let c = 0; c < 6; c++) {
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
         const cell = document.createElement('div');
         cell.className = 'cell';
         cell.dataset.r = r;
         cell.dataset.c = c;
-
-        const isServer = currentPuzzle.server.row===r && currentPuzzle.server.col===c;
-        const threatIdx = currentPuzzle.threats.findIndex(t => t.row===r && t.col===c);
-        const isWall = wallSet.has(r+','+c);
-        const isOnPath = threatPaths.some(p => p.has(r+','+c)) && !isServer && threatIdx===-1 && !isWall;
-
-        let icon = '', type = 'empty';
-        if (isServer)       { type='server'; cell.classList.add('server'); icon='🖥️'; }
-        else if (threatIdx>=0){ type='threat'; cell.classList.add('threat'); icon=currentPuzzle.threats[threatIdx].emoji; }
-        else if (isWall)    { type='wall';   cell.classList.add('wall');   icon='🧱'; }
-        else if (isOnPath)  { type='path';   cell.classList.add('path'); }
-
-        if (icon) { const s=document.createElement('span'); s.className='cell-icon'; s.textContent=icon; cell.appendChild(s); }
-        cellStates[r][c] = { type, segIndex: -1 };
+        if (r === SERVER_POS.r && c === SERVER_POS.c) {
+          cell.classList.add('server');
+          cell.innerHTML = '<span>🖥️</span>';
+        }
         grid.appendChild(cell);
       }
     }
+    const handler = (e) => {
+      e.preventDefault();
+      const target = e.target.closest ? e.target.closest('.cell') : null;
+      if (target) {
+        onCellTap(parseInt(target.dataset.r), parseInt(target.dataset.c));
+        return;
+      }
+      // Try elementFromPoint as fallback (when threat icon catches the tap)
+      const touch = e.changedTouches ? e.changedTouches[0] : e;
+      if (touch && typeof touch.clientX === 'number') {
+        const el = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (el) {
+          const cell = el.closest('.cell');
+          if (cell) onCellTap(parseInt(cell.dataset.r), parseInt(cell.dataset.c));
+        }
+      }
+    };
+    grid.addEventListener('click', handler);
+    grid.addEventListener('touchend', handler);
   }
 
-  // ── DRAG DRAWING ──
-  function getCellFromEvent(e) {
-    const touch = e.touches ? e.touches[0] : e;
-    const el = document.elementFromPoint(touch.clientX, touch.clientY);
-    if (!el) return null;
-    const cell = el.closest ? el.closest('.cell') : null;
-    if (!cell) return null;
-    return { r: parseInt(cell.dataset.r), c: parseInt(cell.dataset.c), el: cell };
+  function renderThreats() {
+    document.querySelectorAll('.threat-icon').forEach(el => el.remove());
+    document.querySelectorAll('.cell').forEach(c => c.classList.remove('path-hint'));
+    const grid = document.getElementById('grid');
+    const cells = grid.querySelectorAll('.cell');
+    threats.forEach(t => {
+      if (t.destroyed) return;
+      const idx = t.r * GRID_SIZE + t.c;
+      const cell = cells[idx];
+      if (!cell) return;
+      const icon = document.createElement('div');
+      icon.className = 'threat-icon ' + t.cls;
+      icon.dataset.tid = t.id;
+      icon.textContent = t.emoji;
+      cell.appendChild(icon);
+    });
   }
 
-  function isAdjacent(r1, c1, r2, c2) {
-    return (Math.abs(r1-r2) + Math.abs(c1-c2)) === 1;
+  // No auto-preview — threats start moving when first firewall is placed
+  let previewInterval = null;
+
+  function showHintOnce() {
+    if (gameOver) return;
+    const grid = document.getElementById('grid');
+    const cells = grid.querySelectorAll('.cell');
+    cells.forEach(c => c.classList.remove('path-hint'));
+    threats.forEach(t => {
+      if (t.destroyed) return;
+      const dr = SERVER_POS.r - t.r, dc = SERVER_POS.c - t.c;
+      let stepR = 0, stepC = 0;
+      if (Math.abs(dr) > Math.abs(dc)) stepR = Math.sign(dr);
+      else if (Math.abs(dc) > Math.abs(dr)) stepC = Math.sign(dc);
+      else if (dr !== 0 || dc !== 0) { if (t.id % 2 === 0) stepR = Math.sign(dr); else stepC = Math.sign(dc); }
+      const nr = t.r + stepR, nc = t.c + stepC;
+      if (nr === SERVER_POS.r && nc === SERVER_POS.c) return;
+      if (nr < 0 || nr >= GRID_SIZE || nc < 0 || nc >= GRID_SIZE) return;
+      const target = cells[nr * GRID_SIZE + nc];
+      if (target) target.classList.add('path-hint');
+    });
+    // Apply +3s penalty
+    elapsedMs += 3000;
+    showPenalty('+3s — hint used');
+    // Clear after 2 seconds
+    setTimeout(() => {
+      cells.forEach(c => c.classList.remove('path-hint'));
+    }, 2000);
   }
 
-  function onDragStart(e) {
-    e.preventDefault();
-    const info = getCellFromEvent(e);
-    if (!info) return;
-    const { r, c } = info;
-    const state = cellStates[r][c];
-    if (!state || state.type === 'server' || state.type === 'threat' || state.type === 'wall') return;
-
-    // If cell already belongs to a segment, do nothing
-    if (state.segIndex >= 0) return;
-
-    // Find next available segment
-    const nextSeg = segments.findIndex(s => s.length === 0);
-    if (nextSeg === -1) { showPenalty('All 3 segments drawn — clear one first'); return; }
-    if (nextSeg !== activeSegment) activeSegment = nextSeg;
-
-    if (!timerStarted) startTimer();
-
-    isDragging = true;
-    lastDragCell = { r, c };
-    addCellToSegment(r, c, activeSegment);
-  }
-
-  function onDragMove(e) {
-    if (!isDragging) return;
-    e.preventDefault();
-    const info = getCellFromEvent(e);
-    if (!info) return;
-    const { r, c } = info;
-    if (lastDragCell && r === lastDragCell.r && c === lastDragCell.c) return;
-
-    const state = cellStates[r][c];
-    if (!state || state.type === 'server' || state.type === 'threat' || state.type === 'wall') return;
-    if (state.segIndex >= 0) return;
-
-    // Must be adjacent to last cell
-    if (!isAdjacent(r, c, lastDragCell.r, lastDragCell.c)) return;
-
-    // Max length check
-    if (segments[activeSegment].length >= MAX_SEG_LEN) {
-      showPenalty('Max ' + MAX_SEG_LEN + ' cells per segment');
-      isDragging = false;
-      activeSegment = segments.findIndex(s => s.length === 0);
+  function onCellTap(r, c) {
+    if (gameOver) return;
+    if (r === SERVER_POS.r && c === SERVER_POS.c) return;
+    // Check if already firewall
+    const existing = firewallsPlaced.findIndex(f => f.r === r && f.c === c);
+    if (existing >= 0) {
+      // Remove firewall
+      firewallsPlaced.splice(existing, 1);
+      firewallsLeft++;
+      const cells = document.getElementById('grid').querySelectorAll('.cell');
+      cells[r * GRID_SIZE + c].classList.remove('firewall');
+      updateFwUI();
       return;
     }
-
-    lastDragCell = { r, c };
-    addCellToSegment(r, c, activeSegment);
-  }
-
-  function onDragEnd(e) {
-    if (!isDragging) return;
-    isDragging = false;
-    // Move to next empty segment
-    const nextSeg = segments.findIndex(s => s.length === 0);
-    activeSegment = nextSeg >= 0 ? nextSeg : MAX_SEGMENTS;
-    lastDragCell = null;
-    updateSegmentUI();
-    if (navigator.vibrate) navigator.vibrate(30);
-  }
-
-  function addCellToSegment(r, c, segIdx) {
-    const key = r + ',' + c;
-    segments[segIdx].push(key);
-    cellStates[r][c].segIndex = segIdx;
-
-    const cells = document.getElementById('grid').querySelectorAll('.cell');
-    const cell = cells[r * 6 + c];
-    cell.className = 'cell ' + SEG_COLORS[segIdx];
-    const span = document.createElement('span');
-    span.className = 'cell-icon seg-icon';
-    span.textContent = SEG_EMOJIS[segIdx];
-    cell.innerHTML = '';
-    cell.appendChild(span);
-    updateSegmentUI();
-  }
-
-  function clearLastSegment() {
-    // Find last drawn segment
-    let lastFilled = -1;
-    for (let i = MAX_SEGMENTS-1; i >= 0; i--) {
-      if (segments[i].length > 0) { lastFilled = i; break; }
+    // Check if threat on this cell
+    const onThreat = threats.some(t => !t.destroyed && t.r === r && t.c === c);
+    if (onThreat) {
+      // Place firewall and immediately resolve collision
+      placeFirewallAt(r, c);
+      checkCollisions();
+      return;
     }
-    if (lastFilled === -1) return;
-    // Clear it
-    segments[lastFilled].forEach(key => {
-      const [r, c] = key.split(',').map(Number);
-      cellStates[r][c].segIndex = -1;
-      redrawCell(r, c);
-    });
-    segments[lastFilled] = [];
-    activeSegment = lastFilled;
-    updateSegmentUI();
+    if (firewallsLeft <= 0) {
+      showPenalty('No firewalls left!');
+      return;
+    }
+    placeFirewallAt(r, c);
   }
 
-  function redrawCell(r, c) {
+  function placeFirewallAt(r, c) {
+    firewallsPlaced.push({ r, c });
+    firewallsLeft--;
     const cells = document.getElementById('grid').querySelectorAll('.cell');
-    const cell = cells[r * 6 + c];
-    const state = cellStates[r][c];
-    const wallSet = new Set((currentPuzzle.walls||[]).map(w => w.row+','+w.col));
-    cell.className = 'cell';
-    cell.innerHTML = '';
-
-    if (state.type === 'server') { cell.classList.add('server'); cell.innerHTML='<span class="cell-icon">🖥️</span>'; }
-    else if (state.type === 'threat') { cell.classList.add('threat'); const t=currentPuzzle.threats.find(t=>t.row===r&&t.col===c); cell.innerHTML='<span class="cell-icon">'+(t?t.emoji:'☠️')+'</span>'; }
-    else if (state.type === 'wall') { cell.classList.add('wall'); cell.innerHTML='<span class="cell-icon">🧱</span>'; }
-    else if (threatPaths.some(p=>p.has(r+','+c))) { cell.classList.add('path'); }
+    cells[r * GRID_SIZE + c].classList.add('firewall');
+    updateFwUI();
+    startTimers(); // begin ticking on first firewall
+    if (navigator.vibrate) navigator.vibrate(20);
   }
 
-  function updateSegmentUI() {
-    const dots = ['seg0dot','seg1dot','seg2dot'];
-    dots.forEach((id, i) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.classList.remove('used','active');
-      if (segments[i].length > 0) el.classList.add('used');
-      if (i === activeSegment && segments[i].length < MAX_SEG_LEN) el.classList.add('active');
-      el.textContent = segments[i].length > 0 ? segments[i].length : (i+1);
+  function simulationTick() {
+    if (gameOver) return;
+    tickCount++;
+    threats.forEach(t => {
+      if (t.destroyed) return;
+      t.stepsRemaining = t.speed;
     });
+    simSubstep(0, roundToken);
   }
 
-  // ── TIMER ──
-  function startTimer() {
-    timerStarted = true;
-    const startTime = Date.now() - elapsedMs;
-    timerInterval = setInterval(() => { elapsedMs = Date.now() - startTime; updateTimerDisplay(); }, 100);
+  function simSubstep(stepIndex, token) {
+    if (token !== roundToken) return;
+    if (gameOver) return;
+    if (stepIndex >= 3) {
+      // End of tick — schedule next
+      if (threats.every(t => t.destroyed)) { winGame(); return; }
+      const tk = token; setTimeout(() => { if (tk === roundToken) simulationTick(); }, 350);
+      return;
+    }
+    let anyMoved = false;
+    threats.forEach(t => {
+      if (t.destroyed) return;
+      if (t.stepsRemaining <= 0) return;
+      stepThreatTowardServer(t);
+      t.stepsRemaining--;
+      anyMoved = true;
+      if (t.r === SERVER_POS.r && t.c === SERVER_POS.c) { loseGame(); return; }
+      const fwIdx = firewallsPlaced.findIndex(f => f.r === t.r && f.c === t.c);
+      if (fwIdx >= 0) {
+        t.destroyed = true;
+        firewallsPlaced.splice(fwIdx, 1);
+        const cells = document.getElementById('grid').querySelectorAll('.cell');
+        cells[t.r * GRID_SIZE + t.c].classList.remove('firewall');
+      }
+    });
+    renderThreats();
+    updateThreatCount();
+    updateFwUI();
+    if (gameOver) return;
+    if (threats.every(t => t.destroyed)) { winGame(); return; }
+    setTimeout(() => simSubstep(stepIndex + 1, token), 350);
   }
 
-  function stopTimer() { if (timerInterval) clearInterval(timerInterval); }
+  function checkCollisions() {
+    // Called when a firewall placed on a live threat cell
+    threats.forEach(t => {
+      if (t.destroyed) return;
+      const fwIdx = firewallsPlaced.findIndex(f => f.r === t.r && f.c === t.c);
+      if (fwIdx >= 0) {
+        t.destroyed = true;
+        firewallsPlaced.splice(fwIdx, 1);
+        const cells = document.getElementById('grid').querySelectorAll('.cell');
+        cells[t.r * GRID_SIZE + t.c].classList.remove('firewall');
+        if (navigator.vibrate) navigator.vibrate(40);
+      }
+    });
+    renderThreats();
+    updateThreatCount();
+    updateFwUI();
+    if (threats.every(t => t.destroyed)) winGame();
+  }
+
+  function updateFwUI() {
+    let html = '';
+    const total = 8;
+    for (let i = 0; i < total; i++) {
+      html += '<span class="fw-pip ' + (i >= firewallsLeft ? 'used' : '') + '"></span>';
+    }
+    document.getElementById('fwPips').innerHTML = html;
+    document.getElementById('fwLabel').textContent = firewallsLeft + ' firewall' + (firewallsLeft !== 1 ? 's' : '');
+  }
+
+  function updateThreatCount() {
+    const alive = threats.filter(t => !t.destroyed).length;
+    document.getElementById('threatsActive').textContent = alive;
+  }
 
   function updateTimerDisplay() {
     const total = Math.floor(elapsedMs / 1000);
-    const mins = Math.floor(total/60).toString().padStart(2,'0');
-    const secs = (total%60).toString().padStart(2,'0');
-    document.getElementById('timerDisplay').textContent = mins+':'+secs;
+    const m = Math.floor(total / 60).toString().padStart(2, '0');
+    const s = (total % 60).toString().padStart(2, '0');
+    document.getElementById('timerDisplay').textContent = m + ':' + s;
   }
 
   function getTimeString() {
-    const total = Math.floor(elapsedMs/1000);
-    return Math.floor(total/60).toString().padStart(2,'0')+':'+( total%60).toString().padStart(2,'0');
+    const total = Math.floor(elapsedMs / 1000);
+    const m = Math.floor(total / 60).toString().padStart(2, '0');
+    const s = (total % 60).toString().padStart(2, '0');
+    return m + ':' + s;
   }
 
-  // ── CHECK ──
-  function checkSolution() {
-    if (!timerStarted) { showPenalty('Draw your segments first!'); return; }
-
-    // All placed segment cells
-    const placedCells = new Set();
-    segments.forEach(seg => seg.forEach(k => placedCells.add(k)));
-
-    const results = currentPuzzle.threats.map((t, i) => {
-      const path = threatPaths[i];
-      return [...path].some(k => placedCells.has(k));
-    });
-
-    const allBlocked = results.every(r => r === true);
-
-    if (allBlocked) {
-      gameWon = true;
-      stopTimer();
-      fireConfetti();
-      setTimeout(() => showWinScreen(), 1200);
-    } else {
-      results.forEach((blocked, i) => {
-        if (!blocked) {
-          threatPaths[i].forEach(key => {
-            const [r, c] = key.split(',').map(Number);
-            const state = cellStates[r] && cellStates[r][c];
-            if (state && state.type !== 'server' && state.type !== 'threat' && state.type !== 'wall' && state.segIndex === -1) {
-              const cells = document.getElementById('grid').querySelectorAll('.cell');
-              const cell = cells[r * 6 + c];
-              if (cell) { cell.style.background='rgba(229,62,62,0.45)'; setTimeout(()=>{ cell.style.background=''; },800); }
-            }
-          });
-        }
-      });
-      elapsedMs += 5000;
-      showPenalty('A threat is getting through! +5s');
-    }
+  function stopTimers() {
+    if (timerInterval) clearInterval(timerInterval);
+    if (tickInterval) clearInterval(tickInterval);
+    if (previewInterval) clearInterval(previewInterval);
   }
 
-  // ── CONFETTI ──
-  function fireConfetti() {
-    if (typeof confetti === 'undefined') return;
-    const colors = ['#f5a623','#1a2e5e','#ffffff','#63b3ed','#9ae6b4'];
-    confetti({ particleCount: 120, spread: 80, origin: {y:0.5}, colors });
-    setTimeout(() => confetti({ particleCount: 60, spread: 100, origin: {y:0.3}, colors }), 300);
-    setTimeout(() => confetti({ particleCount: 80, spread: 60, origin: {y:0.6}, colors }), 600);
-  }
-
-  // ── RESTART ──
-  function restartPuzzle() {
-    segments = [[], [], []];
-    activeSegment = 0;
-    isDragging = false;
-    lastDragCell = null;
-    gameWon = false;
-    buildGrid();
-    updateSegmentUI();
-  }
-
-  // ── PENALTY ──
   function showPenalty(msg) {
     const el = document.getElementById('penaltyFlash');
     el.textContent = msg;
     el.classList.add('show');
-    setTimeout(() => el.classList.remove('show'), 1800);
-    if (navigator.vibrate) navigator.vibrate(80);
+    setTimeout(() => el.classList.remove('show'), 1500);
   }
 
-  // ── WIN ──
-  async function showWinScreen() {
+  // ── WIN/LOSE ──
+  async function winGame() {
+    if (gameOver) return;
+    gameOver = true;
+    won = true;
+    stopTimers();
+    fireConfetti();
+
     const timeStr = getTimeString();
     const score = { name: playerName, time: elapsedMs, timeStr, day: getDayIndex() };
     let scores = [];
-    try { const stored = await window.storage.get('breach_scores_'+getDayIndex()); if (stored) scores = JSON.parse(stored.value); } catch(e) {}
+    try {
+      const stored = await window.storage.get('breach_scores_' + getDayIndex());
+      if (stored) scores = JSON.parse(stored.value);
+    } catch(e) {}
     scores.push(score);
-    scores.sort((a,b) => a.time - b.time);
-    try { await window.storage.set('breach_scores_'+getDayIndex(), JSON.stringify(scores), true); } catch(e) {}
-    const rank = scores.findIndex(s => s.name===playerName && s.time===elapsedMs) + 1;
+    scores.sort((a, b) => a.time - b.time);
+    try {
+      await window.storage.set('breach_scores_' + getDayIndex(), JSON.stringify(scores), true);
+    } catch(e) {}
+
+    const rank = scores.findIndex(s => s.name === playerName && s.time === elapsedMs) + 1;
     document.getElementById('winPlayerName').textContent = 'Well done, ' + playerName;
     document.getElementById('winTime').textContent = timeStr;
-    document.getElementById('winRank').textContent = rank===1?'🥇 Number 1 today!':rank===2?'🥈 2nd place':rank===3?'🥉 3rd place':'#'+rank+' on the leaderboard';
+    document.getElementById('winRank').textContent = rank === 1 ? '🥇 Number 1 today!' : rank === 2 ? '🥈 2nd place' : rank === 3 ? '🥉 3rd place' : '#' + rank + ' on the leaderboard';
+
     const lb = document.getElementById('winLeaderboard');
-    lb.innerHTML = scores.slice(0,8).map((s,i) => {
-      const isYou = s.name===playerName && s.time===elapsedMs;
-      return '<div class="lb-row"><span class="lb-rank">'+(i+1)+'</span><span class="lb-name'+(isYou?' you':'')+'">'+s.name+(isYou?' (you)':'')+'</span><span class="lb-time">'+s.timeStr+'</span></div>';
+    lb.innerHTML = scores.slice(0, 8).map((s, i) => {
+      const isYou = s.name === playerName && s.time === elapsedMs;
+      return '<div class="lb-row"><span class="lb-rank">' + (i+1) + '</span><span class="lb-name' + (isYou ? ' you' : '') + '">' + s.name + (isYou ? ' (you)' : '') + '</span><span class="lb-time">' + s.timeStr + '</span></div>';
     }).join('');
-    showScreen('screen-win');
+
+    setTimeout(() => showScreen('screen-win'), 800);
   }
 
-  function shareResult() {
-    const timeStr = getTimeString();
-    const text = 'BREACH by Reliance Cyber | Puzzle #'+(getDayIndex()+1)+' | '+timeStr+' | Can you beat my time?';
-    if (navigator.share) navigator.share({text});
-    else navigator.clipboard.writeText(text).then(()=>showPenalty('Copied to clipboard!'));
-  }
-
-  function tryAgain() {
-    elapsedMs = 0; timerStarted = false;
-    if (timerInterval) clearInterval(timerInterval);
-    updateTimerDisplay();
-    loadPuzzle();
-    showScreen('screen-game');
+  function loseGame() {
+    if (gameOver) return;
+    gameOver = true;
+    stopTimers();
+    const survived = threats.filter(t => t.destroyed).length;
+    document.getElementById('loseTime').textContent = getTimeString();
+    document.getElementById('loseStats').textContent = 'You destroyed ' + survived + ' of 8 threats';
+    setTimeout(() => showScreen('screen-lose'), 600);
   }
 
   function nextPuzzle() {
-    const currentIdx = currentPuzzleIndex >= 0 ? currentPuzzleIndex : getDayIndex() % PUZZLES.length;
-    currentPuzzleIndex = (currentIdx + 1) % PUZZLES.length;
-    elapsedMs = 0; timerStarted = false;
-    if (timerInterval) clearInterval(timerInterval);
-    updateTimerDisplay();
-    loadPuzzle();
-    showScreen('screen-game');
+    currentPuzzleIndex = (currentPuzzleIndex < 0 ? getDayIndex() : currentPuzzleIndex) + 1;
+    restartGame();
   }
 
-  function goHome() { showScreen('screen-name'); }
+  function restartGame() {
+    // initRound increments roundToken which invalidates any in-flight callbacks
+    initRound();
+    showScreen('screen-game');
+  }
+  function goHome() { stopTimers(); showScreen('screen-name'); }
+  function showRules() { document.getElementById('rulesModal').classList.add('show'); }
+  function closeRules() { document.getElementById('rulesModal').classList.remove('show'); }
+
+  let simulating = false;
+
+  function submitDefence() {
+    if (gameOver) return;
+    if (firewallsPlaced.length === 0) {
+      showPenalty('Place some firewalls first!');
+      return;
+    }
+    if (simulating) return;
+    simulating = true;
+    if (timerInterval) clearInterval(timerInterval);
+    if (tickInterval) clearInterval(tickInterval);
+    document.querySelectorAll('.cell').forEach(c => c.classList.remove('path-hint'));
+    document.getElementById('timerLabel').textContent = 'Locked in';
+    document.getElementById('submitBtn').style.opacity = '0.4';
+    document.getElementById('submitBtn').textContent = '▶ Simulating...';
+    setTimeout(simulationTick, 600);
+  }
+
+  function shareResult() {
+    const text = 'BREACH | Puzzle #' + (getDayIndex()+1) + ' | ' + getTimeString() + ' | Can you beat my time?';
+    if (navigator.share) navigator.share({ text });
+    else navigator.clipboard.writeText(text).then(() => showPenalty('Copied!'));
+  }
 
   function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
   }
 
-  // ── TUTORIAL ──
-  const TUTORIAL_STEPS = [
-    { target: null, title: "Welcome to BREACH 🛡️", body: "A quick walkthrough. Skip anytime or tap ❓ to return.", arrow: null, pos: "center" },
-    { target: "server", title: "Protect the server 🖥️", body: "Do not let any threat reach it.", arrow: "down", pos: "above" },
-    { target: "threat", title: "Threats incoming ☠️", body: "Each threat moves in a <span class='hl'>straight line</span> toward the server.", arrow: "down", pos: "above" },
-    { target: "path", title: "Draw your firewall", body: "<span class='hl'>Drag your finger</span> across path cells to draw a connected firewall segment. Max 3 cells per segment.", arrow: "down", pos: "above" },
-    { target: "seg0dot", title: "3 segments total", body: "You get <span class='hl'>3 segments</span> to block 4 threats. Find where paths cross — one segment can block two threats at once.", arrow: "up", pos: "below" },
-    { target: "controls", title: "Controls", body: "<strong>↩️ Clear last</strong> — removes your last segment<br><br><strong>🔄 Restart</strong> — clears everything<br><br><strong>✅ Check</strong> — submits your solution", arrow: "up", pos: "below" },
-  ];
-
-  let tutStep = 0, tutActive = false;
-
-  function checkFirstVisit() {
-    try { if (!localStorage.getItem('breach_tutorial_seen')) startTutorial(); } catch(e) {}
-  }
-
-  function startTutorial() {
-    tutStep = 0; tutActive = true;
-    document.getElementById('tutorialOverlay').classList.add('show');
-    renderTutStep();
-  }
-
-  function tutNext() {
-    tutStep++;
-    if (tutStep >= TUTORIAL_STEPS.length) endTutorial();
-    else renderTutStep();
-  }
-
-  function skipTutorial() { endTutorial(); }
-
-  function endTutorial() {
-    tutActive = false;
-    document.getElementById('tutorialOverlay').classList.remove('show');
-    document.getElementById('tutHighlight').style.display = 'none';
-    try { localStorage.setItem('breach_tutorial_seen','1'); } catch(e) {}
-  }
-
-  function renderTutStep() {
-    const step = TUTORIAL_STEPS[tutStep];
-    const total = TUTORIAL_STEPS.length;
-    document.getElementById('tutStepLabel').textContent = 'Step '+(tutStep+1)+' of '+total;
-    document.getElementById('tutTitle').textContent = step.title;
-    document.getElementById('tutBody').innerHTML = step.body;
-    document.getElementById('tutNextBtn').textContent = tutStep===total-1 ? 'Got it ✓' : 'Next →';
-
-    const highlight = document.getElementById('tutHighlight');
-    const tooltip = document.getElementById('tutTooltip');
-    const arrow = document.getElementById('tutArrow');
-    arrow.className = 'tut-arrow';
-
-    if (step.pos==='center' || !step.target) {
-      highlight.style.display='none';
-      tooltip.style.top='50%'; tooltip.style.left='50%'; tooltip.style.transform='translate(-50%,-50%)'; tooltip.style.bottom='';
-      arrow.style.display='none'; return;
+  // CONFETTI (inline canvas, no worker)
+  function fireConfetti() {
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9000;';
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const colors = ['#f5a623','#63b3ed','#9ae6b4','#ffffff','#1a2e5e','#f687b3'];
+    const particles = [];
+    for (let i = 0; i < 140; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: -10 - Math.random() * 100,
+        w: 8 + Math.random() * 8,
+        h: 4 + Math.random() * 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        vx: (Math.random() - 0.5) * 6,
+        vy: 2 + Math.random() * 4,
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.3,
+        gravity: 0.18
+      });
     }
-
-    arrow.style.display='block'; tooltip.style.transform='';
-    let targetEl = null;
-    if (step.target==='server') targetEl = document.querySelector('.cell.server');
-    else if (step.target==='threat') targetEl = document.querySelector('.cell.threat');
-    else if (step.target==='path') targetEl = document.querySelector('.cell.path');
-    else if (step.target==='seg0dot') targetEl = document.getElementById('seg0dot');
-    else if (step.target==='controls') targetEl = document.querySelector('.controls');
-
-    if (!targetEl) { highlight.style.display='none'; tooltip.style.top='50%'; tooltip.style.left='50%'; tooltip.style.transform='translate(-50%,-50%)'; return; }
-
-    const rect = targetEl.getBoundingClientRect();
-    const pad = 6;
-    highlight.style.display='block';
-    highlight.style.top=(rect.top-pad)+'px'; highlight.style.left=(rect.left-pad)+'px';
-    highlight.style.width=(rect.width+pad*2)+'px'; highlight.style.height=(rect.height+pad*2)+'px';
-    highlight.style.borderRadius = step.target==='controls'?'12px':'10px';
-
-    const vw = window.innerWidth;
-    const tooltipW = Math.min(280, vw-38);
-
-    if (step.pos==='above') {
-      tooltip.style.top = Math.max(8, rect.top-pad-16-180)+'px'; tooltip.style.bottom='';
-      tooltip.style.left = Math.max(12, Math.min(vw-tooltipW-12, rect.left+rect.width/2-tooltipW/2))+'px';
-      arrow.className='tut-arrow down';
-    } else {
-      tooltip.style.top = (rect.bottom+pad+16)+'px'; tooltip.style.bottom='';
-      tooltip.style.left = Math.max(12, Math.min(vw-tooltipW-12, rect.left+rect.width/2-tooltipW/2))+'px';
-      arrow.className='tut-arrow up';
+    let frame = 0;
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += p.gravity; p.angle += p.spin;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = Math.max(0, 1 - frame / 180);
+        ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+        ctx.restore();
+      });
+      frame++;
+      if (frame < 180) requestAnimationFrame(draw);
+      else canvas.remove();
     }
+    draw();
   }
 
-  document.getElementById('playerName').addEventListener('keydown', e => { if (e.key==='Enter') startGame(); });
+  document.getElementById('playerName').addEventListener('keydown', e => { if (e.key === 'Enter') startGame(); });
 </script>
-
-<!-- TUTORIAL OVERLAY -->
-<div id="tutorialOverlay">
-  <div class="tut-backdrop" onclick="skipTutorial()"></div>
-  <div class="tut-highlight" id="tutHighlight"></div>
-  <div class="tut-tooltip" id="tutTooltip">
-    <div class="tut-arrow" id="tutArrow"></div>
-    <div class="tut-step-label" id="tutStepLabel">Step 1 of 5</div>
-    <div class="tut-title" id="tutTitle"></div>
-    <div class="tut-body" id="tutBody"></div>
-    <div class="tut-buttons">
-      <button class="tut-btn skip" onclick="skipTutorial()">Skip</button>
-      <button class="tut-btn next" id="tutNextBtn" onclick="tutNext()">Next →</button>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
