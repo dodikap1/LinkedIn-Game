@@ -15,17 +15,11 @@
       --orange: #f5a623;
       --orange-dark: #d4891a;
       --white: #ffffff;
-      --offwhite: #f4f6fb;
       --threat: #e53e3e;
-      --threat-fast: #fc8181;
-      --threat-slow: #d69e2e;
-      --server: #38a169;
-      --server-glow: rgba(56,161,105,0.4);
-      --firewall: #f5a623;
       --cell-bg: #1e3464;
       --cell-border: #2d4a8a;
-      --grid-bg: #0f1c3a;
       --muted: #7a90c4;
+      --green: #38a169;
     }
 
     html, body {
@@ -41,6 +35,7 @@
     .screen { display: none; min-height: 100vh; flex-direction: column; }
     .screen.active { display: flex; }
 
+    /* NAME SCREEN */
     #screen-name {
       align-items: center;
       justify-content: center;
@@ -57,406 +52,196 @@
       text-align: center;
     }
     .game-title span { color: var(--orange); }
+    .game-tagline { font-size: 13px; color: var(--muted); text-align: center; letter-spacing: 0.05em; }
 
-    .game-tagline {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 0.4rem;
-      text-align: center;
-      letter-spacing: 0.05em;
-    }
-
-    .name-form {
-      width: 100%;
-      max-width: 320px;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .name-form label {
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
+    .name-form { width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 0.8rem; }
+    .name-form label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
     .name-form input {
-      width: 100%;
-      padding: 1rem 1.2rem;
-      background: var(--navy-mid);
-      border: 1.5px solid var(--cell-border);
-      border-radius: 10px;
-      color: var(--white);
-      font-size: 1.05rem;
-      font-family: 'Inter', sans-serif;
-      outline: none;
-      transition: border-color 0.15s;
+      width: 100%; padding: 1rem 1.2rem;
+      background: var(--navy-mid); border: 1.5px solid var(--cell-border);
+      border-radius: 10px; color: var(--white); font-size: 1.05rem;
+      font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.15s;
     }
     .name-form input:focus { border-color: var(--orange); }
     .name-form input::placeholder { color: var(--muted); }
 
     .btn-primary {
-      width: 100%;
-      padding: 1rem;
-      background: var(--orange);
-      color: var(--navy-dark);
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      cursor: pointer;
+      width: 100%; padding: 1rem;
+      background: var(--orange); color: var(--navy-dark);
+      border: none; border-radius: 10px; font-size: 1rem;
+      font-weight: 700; letter-spacing: 0.05em; cursor: pointer;
       transition: background 0.15s, transform 0.1s;
     }
     .btn-primary:active { background: var(--orange-dark); transform: scale(0.98); }
 
     .rules-preview {
-      max-width: 320px;
-      background: var(--navy-mid);
-      border: 1px solid var(--cell-border);
-      border-radius: 10px;
-      padding: 1rem 1.2rem;
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.7;
+      max-width: 320px; background: var(--navy-mid);
+      border: 1px solid var(--cell-border); border-radius: 10px;
+      padding: 1rem 1.2rem; font-size: 13px; color: var(--muted); line-height: 1.7;
     }
-    .rules-preview strong { color: var(--orange); font-weight: 600; }
-    .rules-preview .row { display: flex; gap: 6px; align-items: center; margin-top: 4px; }
+    .rules-preview strong { color: var(--orange); }
 
-    /* GAME */
+    /* GAME SCREEN */
     .game-header {
-      background: var(--navy-dark);
-      border-bottom: 1px solid var(--cell-border);
-      padding: 0.7rem 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-shrink: 0;
+      background: var(--navy-dark); border-bottom: 1px solid var(--cell-border);
+      padding: 0.7rem 1rem; display: flex; align-items: center;
+      justify-content: space-between; flex-shrink: 0;
     }
-
-    .header-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-    }
+    .header-title { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.1em; }
     .header-title span { color: var(--orange); }
-
     .timer-wrap { text-align: right; }
-    .timer {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 1.4rem;
-      color: var(--orange);
-      line-height: 1;
-    }
-    .timer-label {
-      font-size: 9px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
+    .timer { font-family: 'Share Tech Mono', monospace; font-size: 1.4rem; color: var(--orange); line-height: 1; }
+    .timer-label { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 
-    .status-bar {
-      padding: 0.55rem 1rem;
-      background: var(--navy-mid);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-shrink: 0;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-    }
-
-    .fw-counter {
-      display: flex;
-      gap: 5px;
-      align-items: center;
-    }
-    .fw-pip {
-      width: 12px; height: 12px;
-      border-radius: 3px;
-      background: var(--firewall);
-      opacity: 1;
-      transition: opacity 0.2s;
-    }
-    .fw-pip.used { opacity: 0.2; }
-
-    .threats-counter { font-weight: 600; color: var(--white); }
-
-    .grid-wrap {
-      flex: 1;
-      display: flex;
+    /* ORDER FLASH OVERLAY */
+    #orderFlash {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(10,15,35,0.96);
+      z-index: 500;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 0.8rem;
+      gap: 1.2rem;
+    }
+    #orderFlash.show { display: flex; }
+    .flash-label { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+    .flash-order { display: flex; align-items: center; gap: 1rem; font-size: 3rem; }
+    .flash-arrow { font-size: 1.5rem; color: var(--orange); }
+    .flash-countdown {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 2rem; color: var(--orange);
+    }
+    .flash-sub { font-size: 12px; color: var(--muted); letter-spacing: 0.05em; }
+
+    /* STATUS BAR */
+    .status-bar {
+      padding: 0.5rem 1rem; background: var(--navy-mid);
+      border-bottom: 1px solid var(--cell-border);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0; font-size: 11px; color: var(--muted);
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      gap: 3px;
-      width: 100%;
-      max-width: 450px;
-      aspect-ratio: 1;
+    /* ORDER INDICATOR */
+    .order-bar {
+      padding: 0.5rem 1rem; background: var(--navy-dark);
+      border-bottom: 1px solid var(--cell-border);
+      display: flex; align-items: center; gap: 8px;
+      flex-shrink: 0;
     }
+    .order-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .order-steps { display: flex; gap: 6px; align-items: center; }
+    .order-step {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--navy-mid); border: 1.5px solid var(--cell-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; transition: all 0.2s;
+    }
+    .order-step.active { border-color: var(--orange); background: rgba(245,166,35,0.15); box-shadow: 0 0 8px rgba(245,166,35,0.3); }
+    .order-step.done { border-color: var(--green); background: rgba(56,161,105,0.15); opacity: 0.5; }
+    .order-step.error { border-color: var(--threat); background: rgba(229,62,62,0.2); animation: shake 0.3s ease; }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+
+    /* GRID */
+    .grid-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0.8rem; }
+    .grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; width: 100%; max-width: 450px; aspect-ratio: 1; }
 
     .cell {
-      aspect-ratio: 1;
-      border-radius: 5px;
-      background: var(--cell-bg);
-      border: 1px solid var(--cell-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background 0.1s, transform 0.08s, border-color 0.1s;
-      position: relative;
-      touch-action: manipulation;
-      user-select: none;
-      font-size: 1rem;
+      aspect-ratio: 1; border-radius: 5px;
+      background: var(--cell-bg); border: 1px solid var(--cell-border);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; touch-action: manipulation; user-select: none;
+      transition: background 0.1s;
     }
-
-    .cell:active { transform: scale(0.92); }
-
-    .cell.server {
-      background: rgba(56,161,105,0.18);
-      border-color: var(--server);
-      box-shadow: 0 0 12px var(--server-glow);
-    }
-
-    .cell.firewall {
-      background: rgba(245,166,35,0.3);
-      border-color: var(--firewall);
-      animation: placePulse 0.25s ease;
-    }
-
-    @keyframes placePulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-      100% { transform: scale(1); }
-    }
+    .cell.tappable { cursor: pointer; }
+    .cell.tappable:active { transform: scale(0.9); }
 
     .threat-icon {
-      position: absolute;
-      width: 100%; height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      transition: all 0.45s cubic-bezier(0.45, 0, 0.55, 1);
-      pointer-events: none;
-      z-index: 5;
-      filter: drop-shadow(0 0 4px rgba(229,62,62,0.6));
+      position: absolute; width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; pointer-events: none; z-index: 5;
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
     }
-    .cell.path-hint {
-      background: rgba(229,62,62,0.12);
-      border-color: rgba(229,62,62,0.35);
-    }
-    .threat-icon * { pointer-events: none; }
-    .cell span { pointer-events: none; }
-    .threat-icon.fast  { filter: drop-shadow(0 0 6px rgba(252,129,129,0.8)); }
-    .threat-icon.slow  { filter: drop-shadow(0 0 3px rgba(214,158,46,0.6)); }
-    .threat-icon.destroyed {
-      animation: explode 0.5s ease forwards;
-    }
+    .threat-icon.target { filter: drop-shadow(0 0 6px var(--orange)); animation: pulse 0.8s ease infinite; }
+    .threat-icon.wrong  { animation: wrongFlash 0.35s ease; }
+    .threat-icon.zap    { animation: zapOut 0.4s ease forwards; }
+    @keyframes pulse    { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+    @keyframes wrongFlash { 0%,100%{filter:none} 50%{filter:drop-shadow(0 0 8px #e53e3e)} }
+    @keyframes zapOut   { 0%{transform:scale(1);opacity:1} 60%{transform:scale(1.5);opacity:1} 100%{transform:scale(0);opacity:0} }
 
-    @keyframes explode {
-      0%   { transform: scale(1); opacity: 1; }
-      40%  { transform: scale(1.5); opacity: 1; filter: drop-shadow(0 0 12px var(--orange)); }
-      100% { transform: scale(0); opacity: 0; }
+    /* CONTROLS */
+    .controls { padding: 0.7rem 1rem 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex-shrink: 0; }
+    .btn-control {
+      padding: 0.7rem 0.5rem; background: var(--navy-mid);
+      border: 1.5px solid var(--cell-border); border-radius: 10px;
+      color: var(--white); font-size: 0.85rem; font-weight: 500; cursor: pointer;
+      text-align: center; transition: background 0.12s, transform 0.1s;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
     }
+    .btn-control:active { transform: scale(0.96); background: var(--navy-dark); }
+    .btn-control.hint { border-color: rgba(245,166,35,0.3); color: var(--orange); }
 
+    /* PENALTY FLASH */
     .penalty-flash {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: var(--threat);
-      color: white;
-      text-align: center;
-      padding: 0.5rem;
-      font-size: 13px;
-      font-weight: 600;
-      transform: translateY(-100%);
-      transition: transform 0.2s;
-      z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0;
+      background: var(--threat); color: white; text-align: center;
+      padding: 0.5rem; font-size: 13px; font-weight: 600;
+      transform: translateY(-100%); transition: transform 0.2s; z-index: 100;
     }
     .penalty-flash.show { transform: translateY(0); }
 
-    .controls {
-      padding: 0.7rem 1rem 1rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .btn-control {
-      padding: 0.7rem 0.5rem;
-      background: var(--navy-mid);
-      border: 1.5px solid var(--cell-border);
-      border-radius: 10px;
-      color: var(--white);
-      font-size: 0.85rem;
-      font-weight: 500;
-      cursor: pointer;
-      text-align: center;
-      transition: background 0.12s, transform 0.1s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .btn-control:active { transform: scale(0.96); background: var(--navy-dark); }
-    .btn-control.help { border-color: rgba(245,166,35,0.3); color: var(--orange); }
-
-    /* MODAL */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(10,15,35,0.92);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-    }
-    .modal-overlay.show { display: flex; }
-
-    .modal {
-      background: var(--navy-mid);
-      border: 1.5px solid var(--cell-border);
-      border-radius: 16px;
-      padding: 1.8rem 1.5rem;
-      width: 100%;
-      max-width: 340px;
-      text-align: center;
-    }
-    .modal-title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      margin-bottom: 0.8rem;
-      color: var(--orange);
-    }
-    .modal-body {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 1.2rem;
-      text-align: left;
-    }
-    .modal-body strong { color: var(--white); }
-    .modal-body .hl { color: var(--orange); font-weight: 600; }
-    .modal-body .row {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin: 8px 0;
-    }
-    .modal-body .row .icon { font-size: 1.1rem; flex-shrink: 0; }
-
-    .btn-modal {
-      width: 100%;
-      padding: 0.9rem;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      margin-bottom: 0.5rem;
-      transition: transform 0.1s;
-    }
-    .btn-modal:active { transform: scale(0.98); }
-    .btn-modal.primary { background: var(--orange); color: var(--navy-dark); }
-    .btn-modal.secondary { background: transparent; color: var(--muted); border: 1.5px solid var(--cell-border); }
-
-    /* WIN/LOSE */
+    /* WIN/LOSE SCREENS */
     #screen-win, #screen-lose {
-      align-items: center;
-      justify-content: flex-start;
-      padding: 2rem 1.5rem;
-      gap: 1.2rem;
-      overflow-y: auto;
+      align-items: center; justify-content: flex-start;
+      padding: 2rem 1.5rem; gap: 1.2rem; overflow-y: auto;
     }
-
-    .result-header { text-align: center; }
-    .result-emoji { font-size: 3rem; margin-bottom: 0.5rem; }
-    .result-title { font-size: 1.8rem; font-weight: 700; letter-spacing: 0.06em; }
+    .result-header { text-align: center; width: 100%; }
+    .result-emoji  { font-size: 3rem; margin-bottom: 0.5rem; }
+    .result-title  { font-size: 1.8rem; font-weight: 700; letter-spacing: 0.06em; }
     .result-title span { color: var(--orange); }
     .result-title.lose span { color: var(--threat); }
-    .result-sub { font-size: 13px; color: var(--muted); margin-top: 0.3rem; }
-
-    .result-time {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 3.5rem;
-      color: var(--orange);
-      line-height: 1;
-    }
-    .result-time-label {
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
+    .result-sub    { font-size: 13px; color: var(--muted); margin-top: 0.3rem; }
+    .result-time   { font-family: 'Share Tech Mono', monospace; font-size: 3.5rem; color: var(--orange); line-height: 1; }
+    .result-time-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
 
     .leaderboard {
-      width: 100%;
-      max-width: 340px;
-      background: var(--navy-mid);
-      border: 1px solid var(--cell-border);
-      border-radius: 12px;
-      padding: 1rem 1.2rem;
+      width: 100%; max-width: 340px; background: var(--navy-mid);
+      border: 1px solid var(--cell-border); border-radius: 12px; padding: 1rem 1.2rem;
     }
-    .lb-title {
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.6rem;
-    }
+    .lb-title { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
     .lb-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid rgba(45,74,138,0.5);
-      font-size: 13px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.5rem 0; border-bottom: 1px solid rgba(45,74,138,0.5); font-size: 13px;
     }
     .lb-rank { color: var(--muted); width: 20px; font-size: 11px; }
     .lb-name { flex: 1; padding: 0 0.5rem; color: var(--white); }
     .lb-name.you { color: var(--orange); font-weight: 600; }
     .lb-time { font-family: 'Share Tech Mono', monospace; color: var(--orange); font-size: 12px; }
 
-    .result-actions {
-      width: 100%;
-      max-width: 340px;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+    .result-actions { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 0.5rem; }
 
-    .legend-bar {
-      display: flex;
-      justify-content: space-around;
-      padding: 0.4rem 1rem;
-      background: var(--navy-dark);
-      border-bottom: 1px solid var(--cell-border);
-      flex-shrink: 0;
-      gap: 8px;
+    .btn-modal {
+      width: 100%; padding: 0.9rem; border-radius: 10px; font-size: 0.95rem;
+      font-weight: 600; cursor: pointer; border: none; margin-bottom: 0.2rem;
+      transition: transform 0.1s; font-family: 'Inter', sans-serif;
     }
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 11px;
-      color: var(--muted);
-    }
-    .leg-ico { font-size: 13px; }
-    .leg-label { font-weight: 600; color: var(--white); letter-spacing: 0.05em; }
-    .leg-dots {
-      color: var(--threat);
-      letter-spacing: 1px;
-      font-size: 9px;
+    .btn-modal:active { transform: scale(0.98); }
+    .btn-modal.primary { background: var(--orange); color: var(--navy-dark); }
+    .btn-modal.secondary { background: transparent; color: var(--muted); border: 1.5px solid var(--cell-border); }
+
+    /* RULES MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10,15,35,0.92); z-index: 200; align-items: center; justify-content: center; padding: 1.5rem; }
+    .modal-overlay.show { display: flex; }
+    .modal { background: var(--navy-mid); border: 1.5px solid var(--cell-border); border-radius: 16px; padding: 1.8rem 1.5rem; width: 100%; max-width: 340px; text-align: center; }
+    .modal-title { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 0.8rem; color: var(--orange); }
+    .modal-body { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 1.2rem; text-align: left; }
+    .modal-body strong { color: var(--white); }
+    .modal-body .hl { color: var(--orange); font-weight: 600; }
+
+    .cell.server-cell {
+      background: rgba(56,161,105,0.15);
+      border-color: #38a169;
+      box-shadow: 0 0 10px rgba(56,161,105,0.3);
     }
   </style>
 </head>
@@ -464,24 +249,27 @@
 
 <div class="penalty-flash" id="penaltyFlash"></div>
 
+<!-- ORDER FLASH -->
+<div id="orderFlash">
+  <div class="flash-label">Memorise the order</div>
+  <div class="flash-order" id="flashOrder"></div>
+  <div class="flash-countdown" id="flashCountdown">3</div>
+  <div class="flash-sub">Tap each threat type in this order</div>
+</div>
+
 <!-- NAME SCREEN -->
 <div class="screen active" id="screen-name">
   <div>
     <h1 class="game-title">BRE<span>ACH</span></h1>
-    <p class="game-tagline">Real-time network defence</p>
+    <p class="game-tagline">Memorise. React. Eliminate.</p>
   </div>
-
   <div class="name-form">
     <label for="playerName">Your name</label>
     <input type="text" id="playerName" placeholder="Enter your name" maxlength="20" autocomplete="off">
     <button class="btn-primary" onclick="startGame()">Start round</button>
   </div>
-
   <div class="rules-preview">
-    <strong>How to play:</strong> Threats march toward the server when you place your first 🔥 firewall. Block them all before any reaches the server. Hit <strong>Submit</strong> to lock in your time and let the simulation play out.
-    <div class="row">⚡ <span>Fast (3 cells/sec)</span></div>
-    <div class="row">🦠 <span>Standard (2 cells/sec)</span></div>
-    <div class="row">🐌 <span>Slow (1 cell/sec)</span></div>
+    <strong>How to play:</strong> The order of 5 threat types flashes for 2 seconds. Memorise it. Tap each type in order — wrong tap = +5s penalty. Clear all threats then hit Submit to lock in your time.
   </div>
 </div>
 
@@ -490,37 +278,32 @@
   <div class="game-header">
     <div>
       <div class="header-title">BRE<span>ACH</span></div>
-      <div style="font-size:10px; color:var(--muted); letter-spacing:0.1em;">Puzzle #<span id="puzzleNum">1</span></div>
+      <div style="font-size:10px; color:var(--muted); letter-spacing:0.1em;">Round #<span id="puzzleNum">1</span></div>
     </div>
     <div class="timer-wrap">
       <div class="timer" id="timerDisplay">00:00</div>
-      <div class="timer-label" id="timerLabel">Tap to begin</div>
+      <div class="timer-label" id="timerLabel">Get ready</div>
     </div>
   </div>
 
   <div class="status-bar">
-    <div class="fw-counter">
-      <span id="fwPips"></span>
-      <span id="fwLabel" style="margin-left:6px;">8 firewalls</span>
-    </div>
-    <div><span class="threats-counter" id="threatsActive">0</span><span> threats</span></div>
+    <div id="statusLeft">Memorise the order...</div>
+    <div><span id="threatsLeft" style="color:var(--white); font-weight:600;">12</span> threats left</div>
   </div>
 
-  <div class="legend-bar">
-    <div class="legend-item"><span class="leg-ico">⚡</span><span class="leg-label">Fast</span><span class="leg-dots">●●●</span></div>
-    <div class="legend-item"><span class="leg-ico">🦠</span><span class="leg-label">Std</span><span class="leg-dots">●●</span></div>
-    <div class="legend-item"><span class="leg-ico">🐌</span><span class="leg-label">Slow</span><span class="leg-dots">●</span></div>
+  <div class="order-bar">
+    <span class="order-label">Order:</span>
+    <div class="order-steps" id="orderSteps"></div>
   </div>
 
   <div class="grid-wrap">
     <div class="grid" id="grid"></div>
   </div>
 
-  <div class="controls" style="grid-template-columns: 1fr 1fr 1fr;">
-    <button class="btn-control" onclick="showHintOnce()" style="border-color: rgba(245,166,35,0.3);"><span style="color:var(--orange);">💡 Hint +3s</span></button>
+  <div class="controls">
+    <button class="btn-control hint" onclick="showHint()">💡 Hint +5s</button>
     <button class="btn-control" onclick="restartGame()">🔄 Restart</button>
-    <button class="btn-control help" onclick="showRules()">❓ Rules</button>
-    <button class="btn-control" id="submitBtn" onclick="submitDefence()" style="grid-column: span 3; background: var(--orange); border-color: var(--orange); color: var(--navy-dark); font-weight: 700; font-size: 0.95rem;">✅ Submit defence</button>
+    <button class="btn-control" onclick="showRules()" style="grid-column: span 2;">❓ How to play</button>
   </div>
 </div>
 
@@ -528,7 +311,7 @@
 <div class="screen" id="screen-win">
   <div class="result-header">
     <div class="result-emoji">🛡️</div>
-    <div class="result-title">BREACH <span>BLOCKED</span></div>
+    <div class="result-title">BREACH <span>CLEARED</span></div>
     <div class="result-sub" id="winPlayerName"></div>
   </div>
   <div style="text-align:center;">
@@ -542,43 +325,27 @@
   </div>
   <div class="result-actions">
     <button class="btn-modal primary" onclick="shareResult()">Share result 📤</button>
+    <button class="btn-modal secondary" onclick="nextRound()">Next round →</button>
     <button class="btn-modal secondary" onclick="restartGame()">Play again 🔄</button>
-    <button class="btn-modal secondary" onclick="nextPuzzle()">Next puzzle →</button>
     <button class="btn-modal secondary" onclick="goHome()">Home</button>
   </div>
 </div>
 
-<!-- LOSE SCREEN -->
-<div class="screen" id="screen-lose">
-  <div class="result-header">
-    <div class="result-emoji">💥</div>
-    <div class="result-title lose">BREACH <span>SUCCESSFUL</span></div>
-    <div class="result-sub">A threat reached the server</div>
-  </div>
-  <div style="text-align:center;">
-    <div class="result-time-label">You held out for</div>
-    <div class="result-time" id="loseTime">00:00</div>
-    <div class="result-sub" id="loseStats"></div>
-  </div>
-  <div class="result-actions">
-    <button class="btn-modal primary" onclick="restartGame()">Try again 🔄</button>
-    <button class="btn-modal secondary" onclick="goHome()">Home</button>
-  </div>
-</div>
+<!-- LOSE/WRONG SCREEN — not used, we just penalise inline -->
 
 <!-- RULES MODAL -->
 <div class="modal-overlay" id="rulesModal">
   <div class="modal">
     <div class="modal-title">How to play</div>
     <div class="modal-body">
-      <p>Threats <strong>navigate toward the server</strong>. They start moving the moment you place your first firewall — and every 2 seconds they step closer.</p><p style="margin-top:8px;">Tap any cell to drop a 🔥 firewall. When a threat steps onto a firewall, both are destroyed.</p><p style="margin-top:8px;">Hit <span class="hl">Submit</span> when you're confident your defence will hold — your timer stops immediately and the simulation finishes.</p><p style="margin-top:8px;">Need help? The 💡 Hint button briefly shows where each threat will step next, but it adds +3 seconds to your time.</p>
-      <p style="margin-top:8px;">When a threat hits a firewall, <span class="hl">both are destroyed</span>.</p>
-      <p style="margin-top:10px;"><strong>Threat speeds:</strong></p>
-      <div class="row"><span class="icon">⚡</span><span><strong>Fast</strong> — moves 3 cells per second</span></div>
-      <div class="row"><span class="icon">🦠</span><span><strong>Standard</strong> — moves 2 cells per second</span></div>
-      <div class="row"><span class="icon">🐌</span><span><strong>Slow</strong> — moves 1 cell per second</span></div>
-      <p style="margin-top:10px;">You have <span class="hl">8 firewalls</span> to stop them all. Use them wisely — block faster threats first.</p>
-      <p style="margin-top:10px;"><strong>Win:</strong> Destroy every threat.<br><strong>Lose:</strong> Any threat reaches the server.</p>
+      <p>The <span class="hl">elimination order</span> flashes for 2 seconds. Memorise it — 5 threat types, one order.</p>
+      <p style="margin-top:8px;">Tap all threats of the <strong>first type</strong>, then second, third, fourth, fifth. Threats are moving — chase them.</p>
+      <p style="margin-top:8px;"><strong>Wrong type</strong> = <span class="hl">+5s penalty</span> and order re-flashes.</p>
+      <p style="margin-top:8px;">When all threats are cleared, hit <span class="hl">Submit</span> to lock in your time.</p>
+      <p style="margin-top:8px;">💡 Hint re-shows the order (+5s penalty).</p>
+      <div style="margin-top:12px; display:flex; flex-wrap:wrap; gap:8px; font-size:13px;">
+        <span>⚡ Lightning</span><span>🦠 Virus</span><span>🐌 Slowburn</span><span>🤖 AI threat</span><span>🎣 Phishing</span>
+      </div>
     </div>
     <button class="btn-modal primary" onclick="closeRules()">Got it</button>
   </div>
@@ -588,197 +355,28 @@
   // ── STATE ──
   let playerName = '';
   let roundToken = 0;
-  let currentPuzzleIndex = -1;
+  let currentRoundIndex = -1;
   let elapsedMs = 0;
   let timerInterval = null;
-  let tickInterval = null;
+  let moveInterval = null;
   let gameOver = false;
-  let won = false;
 
-  let GRID_SIZE = 8;
-  let SERVER_POS = { r: 3, c: 3 };
-  let firewallsLeft = 8;
-  let firewallsPlaced = []; // [{r,c}]
-  let threats = []; // {r,c,dir,speed,emoji,id,destroyed}
-  let tickCount = 0;
+  const GRID_SIZE = 8;
+  let threats = [];
   let nextThreatId = 0;
+  let typeOrder = []; // e.g. ['⚡','🦠','🐌']
+  let currentTypeIndex = 0; // which type we're currently targeting
+  let tappedInCurrentType = 0;
 
-  // ── INIT ──
-  function startGame() {
-    playerName = document.getElementById('playerName').value.trim() || 'Agent';
-    initRound();
-    document.getElementById('puzzleNum').textContent = (currentPuzzleIndex >= 0 ? currentPuzzleIndex : getDayIndex()) + 1;
-    showScreen('screen-game');
-  }
+  const THREAT_TYPES = [
+    { emoji: '⚡', cls: 'fast',  count: 3 },
+    { emoji: '🦠', cls: 'std',   count: 3 },
+    { emoji: '🐌', cls: 'slow',  count: 3 },
+    { emoji: '🤖', cls: 'ai',    count: 3 },
+    { emoji: '🎣', cls: 'phish', count: 3 },
+  ];
 
-  function getDayIndex() {
-    const start = new Date('2026-01-01');
-    return Math.floor((new Date() - start) / 86400000);
-  }
-
-  function initRound() {
-    // Reset all intervals first
-    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
-    if (tickInterval)  { clearInterval(tickInterval);  tickInterval  = null; }
-    if (previewInterval) { clearInterval(previewInterval); previewInterval = null; }
-    // Reset state
-    roundToken++;
-    elapsedMs = 0;
-    firewallsLeft = 8;
-    firewallsPlaced = [];
-    threats = [];
-    tickCount = 0;
-    nextThreatId = 0;
-    gameOver = false;
-    won = false;
-    simulating = false;
-    // Reset DOM
-    document.getElementById('timerDisplay').textContent = '00:00';
-    const sb = document.getElementById('submitBtn');
-    if (sb) { sb.style.opacity = '1'; sb.textContent = '✅ Submit defence'; }
-    const tl = document.getElementById('timerLabel');
-    if (tl) tl.textContent = 'Tap to begin';
-    // Clear hint highlights
-    document.querySelectorAll('.cell').forEach(c => { c.classList.remove('path-hint'); c.classList.remove('firewall'); });
-
-    // Daily seed (or stepped puzzle index if browsing)
-    const seed = currentPuzzleIndex >= 0 ? currentPuzzleIndex : getDayIndex();
-    const puzzleNumEl = document.getElementById('puzzleNum');
-    if (puzzleNumEl) puzzleNumEl.textContent = seed + 1;
-    const rng = mulberry32(seed * 1000 + 7);
-
-    // Server position (centre-ish)
-    SERVER_POS = { r: 3 + Math.floor(rng() * 2), c: 3 + Math.floor(rng() * 2) };
-
-    // Generate threats: 8 total, mix of speeds
-    // 2 fast, 3 standard, 3 slow
-    const threatTypes = [
-      { speed: 3, emoji: '⚡', cls: 'fast'  },
-      { speed: 3, emoji: '⚡', cls: 'fast'  },
-      { speed: 2, emoji: '🦠', cls: 'std'   },
-      { speed: 2, emoji: '🦠', cls: 'std'   },
-      { speed: 2, emoji: '🦠', cls: 'std'   },
-      { speed: 1, emoji: '🐌', cls: 'slow'  },
-      { speed: 1, emoji: '🐌', cls: 'slow'  },
-      { speed: 1, emoji: '🐌', cls: 'slow'  },
-    ];
-
-    // Shuffle
-    for (let i = threatTypes.length - 1; i > 0; i--) {
-      const j = Math.floor(rng() * (i + 1));
-      [threatTypes[i], threatTypes[j]] = [threatTypes[j], threatTypes[i]];
-    }
-
-    // Place each threat on an edge — unique cells, minimum distance from server
-    const used = new Set();
-    const minDist = 4; // chebyshev distance
-    threatTypes.forEach(t => {
-      let r, c, attempts = 0;
-      while (attempts < 200) {
-        attempts++;
-        const edge = Math.floor(rng() * 4);
-        if (edge === 0) { r = 0;             c = Math.floor(rng() * GRID_SIZE); }
-        if (edge === 1) { r = GRID_SIZE - 1; c = Math.floor(rng() * GRID_SIZE); }
-        if (edge === 2) { r = Math.floor(rng() * GRID_SIZE); c = 0; }
-        if (edge === 3) { r = Math.floor(rng() * GRID_SIZE); c = GRID_SIZE - 1; }
-        const key = r + ',' + c;
-        if (used.has(key)) continue;
-        const dist = Math.max(Math.abs(r - SERVER_POS.r), Math.abs(c - SERVER_POS.c));
-        if (dist < minDist) continue;
-        used.add(key);
-        break;
-      }
-      threats.push({
-        id: nextThreatId++,
-        r, c,
-        speed: t.speed,
-        emoji: t.emoji,
-        cls: t.cls,
-        destroyed: false
-      });
-    });
-
-    buildGrid();
-    renderThreats();
-    updateFwUI();
-    updateThreatCount();
-
-    // Start timers
-    if (timerInterval) clearInterval(timerInterval);
-    if (tickInterval) clearInterval(tickInterval);
-    // Timers start when first firewall is placed
-  }
-
-  function startTimers() {
-    if (timerInterval) return;
-    document.getElementById('timerLabel').textContent = 'Time';
-    const startT = Date.now() - elapsedMs;
-    timerInterval = setInterval(() => {
-      elapsedMs = Date.now() - startT;
-      updateTimerDisplay();
-    }, 100);
-    // Start moving threats every 2 seconds — they're real, can lose the game
-    if (tickInterval) clearInterval(tickInterval);
-    tickInterval = setInterval(liveTick, 3000);
-  }
-
-  function liveTick() {
-    if (gameOver || simulating) return;
-    threats.forEach(t => {
-      if (t.destroyed) return;
-      t.stepsRemaining = t.speed;
-    });
-    processNextSubstep(0, roundToken);
-  }
-
-  function processNextSubstep(stepIndex, token) {
-    if (token !== roundToken) return;
-    if (gameOver || simulating) return;
-    if (stepIndex >= 3) return; // max 3 substeps per tick (= max speed)
-    let anyMoved = false;
-    threats.forEach(t => {
-      if (t.destroyed) return;
-      if (t.stepsRemaining <= 0) return;
-      stepThreatTowardServer(t);
-      t.stepsRemaining--;
-      anyMoved = true;
-      if (t.r === SERVER_POS.r && t.c === SERVER_POS.c) {
-        loseGame();
-        return;
-      }
-      const fwIdx = firewallsPlaced.findIndex(f => f.r === t.r && f.c === t.c);
-      if (fwIdx >= 0) {
-        t.destroyed = true;
-        firewallsPlaced.splice(fwIdx, 1);
-        const cells = document.getElementById('grid').querySelectorAll('.cell');
-        cells[t.r * GRID_SIZE + t.c].classList.remove('firewall');
-        if (navigator.vibrate) navigator.vibrate(40);
-      }
-    });
-    renderThreats();
-    updateThreatCount();
-    updateFwUI();
-    if (threats.every(t => t.destroyed)) {
-      winGame();
-      return;
-    }
-    if (anyMoved) {
-      setTimeout(() => processNextSubstep(stepIndex + 1, token), 350);
-    }
-  }
-
-  function stepThreatTowardServer(t) {
-    const dr = SERVER_POS.r - t.r, dc = SERVER_POS.c - t.c;
-    let stepR = 0, stepC = 0;
-    if (Math.abs(dr) > Math.abs(dc)) stepR = Math.sign(dr);
-    else if (Math.abs(dc) > Math.abs(dr)) stepC = Math.sign(dc);
-    else if (dr !== 0 || dc !== 0) {
-      if (t.id % 2 === 0) stepR = Math.sign(dr);
-      else stepC = Math.sign(dc);
-    }
-    t.r += stepR; t.c += stepC;
-  }
-
+  // ── UTILS ──
   function mulberry32(a) {
     return function() {
       a |= 0; a = a + 0x6D2B79F5 | 0;
@@ -789,6 +387,159 @@
     }
   }
 
+  function getDayIndex() {
+    const start = new Date('2026-01-01');
+    return Math.floor((new Date() - start) / 86400000);
+  }
+
+  // ── INIT ──
+  function startGame() {
+    playerName = document.getElementById('playerName').value.trim() || 'Agent';
+    initRound();
+    showScreen('screen-game');
+  }
+
+  function initRound() {
+    // Clear timers
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    if (moveInterval)  { clearInterval(moveInterval);  moveInterval  = null; }
+    roundToken++;
+
+    // Reset state
+    elapsedMs = 0;
+    threats = [];
+    nextThreatId = 0;
+    currentTypeIndex = 0;
+    tappedInCurrentType = 0;
+    gameOver = false;
+
+    // Reset DOM
+    document.getElementById('timerDisplay').textContent = '00:00';
+    document.getElementById('timerLabel').textContent = 'Get ready';
+    document.getElementById('statusLeft').textContent = 'Memorise the order...';
+
+    const seed = currentRoundIndex >= 0 ? currentRoundIndex : getDayIndex();
+    document.getElementById('puzzleNum').textContent = seed + 1;
+    const rng = mulberry32(seed * 1000 + 13);
+
+    // Generate type order — shuffle the 3 types
+    typeOrder = [...THREAT_TYPES.map(t => t.emoji)];
+    for (let i = typeOrder.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [typeOrder[i], typeOrder[j]] = [typeOrder[j], typeOrder[i]];
+    }
+
+    // Place threats at random positions (not overlapping)
+    const used = new Set();
+    THREAT_TYPES.forEach(type => {
+      for (let n = 0; n < type.count; n++) {
+        let r, c, attempts = 0;
+        while (attempts < 300) {
+          attempts++;
+          r = Math.floor(rng() * GRID_SIZE);
+          c = Math.floor(rng() * GRID_SIZE);
+          if (!used.has(r + ',' + c) && !(r === SERVER_CELL.r && c === SERVER_CELL.c)) { used.add(r + ',' + c); break; }
+        }
+        threats.push({
+          id: nextThreatId++,
+          r, c,
+          emoji: type.emoji,
+          cls: type.cls,
+          destroyed: false,
+          // Random wander direction
+          dr: (Math.floor(rng() * 3) - 1),
+          dc: (Math.floor(rng() * 3) - 1),
+        });
+      }
+    });
+
+    // Ensure threats have valid wander vectors
+    threats.forEach(t => {
+      if (t.dr === 0 && t.dc === 0) t.dr = 1;
+    });
+
+    buildGrid();
+    renderThreats();
+    updateOrderUI();
+    updateThreatCount();
+
+    // Flash the order
+    showOrderFlash(2, () => {
+      // After flash, start timer and movement
+      startTimers();
+    });
+  }
+
+  // ── ORDER FLASH ──
+  function showOrderFlash(seconds, callback) {
+    const overlay = document.getElementById('orderFlash');
+    const orderEl = document.getElementById('flashOrder');
+    const countdown = document.getElementById('flashCountdown');
+
+    // Build order display
+    orderEl.innerHTML = typeOrder.map((emoji, i) =>
+      `<span>${emoji}</span>${i < typeOrder.length - 1 ? '<span class="flash-arrow">→</span>' : ''}`
+    ).join('');
+
+    overlay.classList.add('show');
+    let count = seconds;
+    countdown.textContent = count;
+
+    const token = roundToken;
+    const tick = setInterval(() => {
+      if (token !== roundToken) { clearInterval(tick); overlay.classList.remove('show'); return; }
+      count--;
+      countdown.textContent = count;
+      if (count <= 0) {
+        clearInterval(tick);
+        overlay.classList.remove('show');
+        if (callback) callback();
+      }
+    }, 1000);
+  }
+
+  // ── TIMERS ──
+  function startTimers() {
+    document.getElementById('timerLabel').textContent = 'Time';
+    document.getElementById('statusLeft').textContent = 'Tap: ' + typeOrder[0];
+    const startT = Date.now() - elapsedMs;
+    timerInterval = setInterval(() => {
+      elapsedMs = Date.now() - startT;
+      updateTimerDisplay();
+    }, 100);
+    // Threats wander every 1.5 seconds
+    moveInterval = setInterval(() => wanderThreats(roundToken), 1500);
+  }
+
+  // ── WANDER ──
+  function wanderThreats(token) {
+    if (token !== roundToken || gameOver) return;
+    const rng = mulberry32(Date.now());
+    threats.forEach(t => {
+      if (t.destroyed) return;
+      // Occasionally change direction
+      if (rng() < 0.3) {
+        t.dr = Math.floor(rng() * 3) - 1;
+        t.dc = Math.floor(rng() * 3) - 1;
+        if (t.dr === 0 && t.dc === 0) t.dr = 1;
+      }
+      // Move one step
+      let nr = t.r + t.dr;
+      let nc = t.c + t.dc;
+      // Bounce off walls
+      if (nr < 0 || nr >= GRID_SIZE) { t.dr *= -1; nr = t.r + t.dr; }
+      if (nc < 0 || nc >= GRID_SIZE) { t.dc *= -1; nc = t.c + t.dc; }
+      // Avoid occupied cells
+      const occupied = threats.some(o => !o.destroyed && o.id !== t.id && o.r === nr && o.c === nc);
+      const onServer = (nr === SERVER_CELL.r && nc === SERVER_CELL.c);
+      if (!occupied && !onServer) { t.r = nr; t.c = nc; }
+    });
+    renderThreats();
+  }
+
+  // ── GRID ──
+  const SERVER_CELL = { r: 3, c: 3 };
+
   function buildGrid() {
     const grid = document.getElementById('grid');
     grid.innerHTML = '';
@@ -798,35 +549,25 @@
         cell.className = 'cell';
         cell.dataset.r = r;
         cell.dataset.c = c;
-        if (r === SERVER_POS.r && c === SERVER_POS.c) {
-          cell.classList.add('server');
-          cell.innerHTML = '<span>🖥️</span>';
+        if (r === SERVER_CELL.r && c === SERVER_CELL.c) {
+          cell.classList.add('server-cell');
+          cell.innerHTML = '<span style="font-size:1.1rem;pointer-events:none;">🖥️</span>';
         }
         grid.appendChild(cell);
       }
     }
-    const handler = (e) => {
-      e.preventDefault();
-      const target = e.target.closest ? e.target.closest('.cell') : null;
-      if (target) {
-        onCellTap(parseInt(target.dataset.r), parseInt(target.dataset.c));
-        return;
-      }
-      // Try elementFromPoint as fallback (when threat icon catches the tap)
-      const touch = e.changedTouches ? e.changedTouches[0] : e;
-      if (touch && typeof touch.clientX === 'number') {
-        const el = document.elementFromPoint(touch.clientX, touch.clientY);
-        if (el) {
-          const cell = el.closest('.cell');
-          if (cell) onCellTap(parseInt(cell.dataset.r), parseInt(cell.dataset.c));
-        }
-      }
-    };
-    // Remove any existing listeners by cloning the grid
     if (grid._handler) {
       grid.removeEventListener('click', grid._handler);
       grid.removeEventListener('touchend', grid._handler);
     }
+    const handler = (e) => {
+      e.preventDefault();
+      const touch = e.changedTouches ? e.changedTouches[0] : e;
+      const el = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (!el) return;
+      const cell = el.closest ? el.closest('.cell') : null;
+      if (cell) onCellTap(parseInt(cell.dataset.r), parseInt(cell.dataset.c));
+    };
     grid._handler = handler;
     grid.addEventListener('click', handler);
     grid.addEventListener('touchend', handler);
@@ -834,9 +575,8 @@
 
   function renderThreats() {
     document.querySelectorAll('.threat-icon').forEach(el => el.remove());
-    document.querySelectorAll('.cell').forEach(c => c.classList.remove('path-hint'));
-    const grid = document.getElementById('grid');
-    const cells = grid.querySelectorAll('.cell');
+    const cells = document.getElementById('grid').querySelectorAll('.cell');
+    const currentTargetEmoji = typeOrder[currentTypeIndex];
     threats.forEach(t => {
       if (t.destroyed) return;
       const idx = t.r * GRID_SIZE + t.c;
@@ -845,266 +585,201 @@
       const icon = document.createElement('div');
       icon.className = 'threat-icon ' + t.cls;
       icon.dataset.tid = t.id;
+      // Highlight current target type
+      if (t.emoji === currentTargetEmoji) icon.classList.add('target');
       icon.textContent = t.emoji;
       cell.appendChild(icon);
     });
   }
 
-  // No auto-preview — threats start moving when first firewall is placed
-  let previewInterval = null;
-
-  function showHintOnce() {
-    if (gameOver) return;
-    const grid = document.getElementById('grid');
-    const cells = grid.querySelectorAll('.cell');
-    cells.forEach(c => c.classList.remove('path-hint'));
-    threats.forEach(t => {
-      if (t.destroyed) return;
-      const dr = SERVER_POS.r - t.r, dc = SERVER_POS.c - t.c;
-      let stepR = 0, stepC = 0;
-      if (Math.abs(dr) > Math.abs(dc)) stepR = Math.sign(dr);
-      else if (Math.abs(dc) > Math.abs(dr)) stepC = Math.sign(dc);
-      else if (dr !== 0 || dc !== 0) { if (t.id % 2 === 0) stepR = Math.sign(dr); else stepC = Math.sign(dc); }
-      const nr = t.r + stepR, nc = t.c + stepC;
-      if (nr === SERVER_POS.r && nc === SERVER_POS.c) return;
-      if (nr < 0 || nr >= GRID_SIZE || nc < 0 || nc >= GRID_SIZE) return;
-      const target = cells[nr * GRID_SIZE + nc];
-      if (target) target.classList.add('path-hint');
-    });
-    // Apply +3s penalty
-    elapsedMs += 3000;
-    showPenalty('+3s — hint used');
-    // Clear after 2 seconds
-    setTimeout(() => {
-      cells.forEach(c => c.classList.remove('path-hint'));
-    }, 2000);
-  }
-
+  // ── TAP HANDLING ──
   function onCellTap(r, c) {
     if (gameOver) return;
-    if (r === SERVER_POS.r && c === SERVER_POS.c) return;
-    // Check if already firewall
-    const existing = firewallsPlaced.findIndex(f => f.r === r && f.c === c);
-    if (existing >= 0) {
-      // Remove firewall
-      firewallsPlaced.splice(existing, 1);
-      firewallsLeft++;
-      const cells = document.getElementById('grid').querySelectorAll('.cell');
-      cells[r * GRID_SIZE + c].classList.remove('firewall');
-      updateFwUI();
-      return;
-    }
-    // Check if threat on this cell
-    const onThreat = threats.some(t => !t.destroyed && t.r === r && t.c === c);
-    if (onThreat) {
-      // Place firewall and immediately resolve collision
-      placeFirewallAt(r, c);
-      checkCollisions();
-      return;
-    }
-    if (firewallsLeft <= 0) {
-      showPenalty('No firewalls left!');
-      return;
-    }
-    placeFirewallAt(r, c);
-  }
+    // Find threat at this cell
+    const threat = threats.find(t => !t.destroyed && t.r === r && t.c === c);
+    if (!threat) return;
 
-  function placeFirewallAt(r, c) {
-    firewallsPlaced.push({ r, c });
-    firewallsLeft--;
+    const currentTargetEmoji = typeOrder[currentTypeIndex];
+
+    if (threat.emoji !== currentTargetEmoji) {
+      // Wrong type
+      wrongTap(threat);
+      return;
+    }
+
+    // Correct — destroy it
+    threat.destroyed = true;
+    tappedInCurrentType++;
+
+    // Animate the cell
     const cells = document.getElementById('grid').querySelectorAll('.cell');
-    cells[r * GRID_SIZE + c].classList.add('firewall');
-    updateFwUI();
-    startTimers(); // begin ticking on first firewall
+    const icon = cells[r * GRID_SIZE + c].querySelector('.threat-icon');
+    if (icon) icon.classList.add('zap');
+
     if (navigator.vibrate) navigator.vibrate(20);
-  }
 
-  function simulationTick() {
-    if (gameOver) return;
-    tickCount++;
-    threats.forEach(t => {
-      if (t.destroyed) return;
-      t.stepsRemaining = t.speed;
-    });
-    simSubstep(0, roundToken);
-  }
+    setTimeout(() => {
+      renderThreats();
+      updateThreatCount();
 
-  function simSubstep(stepIndex, token) {
-    if (token !== roundToken) return;
-    if (gameOver) return;
-    if (stepIndex >= 3) {
-      // End of tick — schedule next
-      if (threats.every(t => t.destroyed)) { winGame(); return; }
-      const tk = token; setTimeout(() => { if (tk === roundToken) simulationTick(); }, 350);
-      return;
-    }
-    let anyMoved = false;
-    threats.forEach(t => {
-      if (t.destroyed) return;
-      if (t.stepsRemaining <= 0) return;
-      stepThreatTowardServer(t);
-      t.stepsRemaining--;
-      anyMoved = true;
-      if (t.r === SERVER_POS.r && t.c === SERVER_POS.c) { loseGame(); return; }
-      const fwIdx = firewallsPlaced.findIndex(f => f.r === t.r && f.c === t.c);
-      if (fwIdx >= 0) {
-        t.destroyed = true;
-        firewallsPlaced.splice(fwIdx, 1);
-        const cells = document.getElementById('grid').querySelectorAll('.cell');
-        cells[t.r * GRID_SIZE + t.c].classList.remove('firewall');
+      // Check if current type is fully eliminated
+      const remaining = threats.filter(t => !t.destroyed && t.emoji === currentTargetEmoji);
+      if (remaining.length === 0) {
+        currentTypeIndex++;
+        tappedInCurrentType = 0;
+        if (currentTypeIndex >= typeOrder.length) {
+          // All threats cleared — show submit button
+          if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+          if (moveInterval)  { clearInterval(moveInterval);  moveInterval  = null; }
+          document.getElementById('statusLeft').textContent = 'Breach cleared!';
+          document.getElementById('timerLabel').textContent = 'Locked in';
+          showSubmitButton();
+          return;
+        }
+        document.getElementById('statusLeft').textContent = 'Now tap: ' + typeOrder[currentTypeIndex];
+        updateOrderUI();
+        renderThreats(); // re-render to update target highlights
       }
-    });
-    renderThreats();
-    updateThreatCount();
-    updateFwUI();
-    if (gameOver) return;
-    if (threats.every(t => t.destroyed)) { winGame(); return; }
-    setTimeout(() => simSubstep(stepIndex + 1, token), 350);
+    }, 350);
   }
 
-  function checkCollisions() {
-    // Called when a firewall placed on a live threat cell
-    threats.forEach(t => {
-      if (t.destroyed) return;
-      const fwIdx = firewallsPlaced.findIndex(f => f.r === t.r && f.c === t.c);
-      if (fwIdx >= 0) {
-        t.destroyed = true;
-        firewallsPlaced.splice(fwIdx, 1);
-        const cells = document.getElementById('grid').querySelectorAll('.cell');
-        cells[t.r * GRID_SIZE + t.c].classList.remove('firewall');
-        if (navigator.vibrate) navigator.vibrate(40);
-      }
-    });
-    renderThreats();
-    updateThreatCount();
-    updateFwUI();
-    if (threats.every(t => t.destroyed)) winGame();
+  function wrongTap(threat) {
+    // Flash the threat red
+    const cells = document.getElementById('grid').querySelectorAll('.cell');
+    const icon = cells[threat.r * GRID_SIZE + threat.c].querySelector('.threat-icon');
+    if (icon) { icon.classList.add('wrong'); setTimeout(() => icon.classList.remove('wrong'), 350); }
+
+    // Penalty
+    elapsedMs += 5000;
+    showPenalty('+5s — wrong type! Tap ' + typeOrder[currentTypeIndex] + ' first');
+    if (navigator.vibrate) navigator.vibrate([80, 50, 80]);
+
+    // Flash the order again briefly
+    const overlay = document.getElementById('orderFlash');
+    const orderEl = document.getElementById('flashOrder');
+    const countdown = document.getElementById('flashCountdown');
+    orderEl.innerHTML = typeOrder.map((emoji, i) =>
+      `<span style="${i === currentTypeIndex ? 'border:2px solid var(--orange);border-radius:8px;padding:4px;' : ''}">${emoji}</span>${i < typeOrder.length - 1 ? '<span class="flash-arrow">→</span>' : ''}`
+    ).join('');
+    countdown.textContent = '2';
+    overlay.classList.add('show');
+    const token = roundToken;
+    let c2 = 2;
+    const tick = setInterval(() => {
+      if (token !== roundToken) { clearInterval(tick); overlay.classList.remove('show'); return; }
+      c2--;
+      countdown.textContent = c2;
+      if (c2 <= 0) { clearInterval(tick); overlay.classList.remove('show'); }
+    }, 1000);
   }
 
-  function updateFwUI() {
-    let html = '';
-    const total = 8;
-    for (let i = 0; i < total; i++) {
-      html += '<span class="fw-pip ' + (i >= firewallsLeft ? 'used' : '') + '"></span>';
-    }
-    document.getElementById('fwPips').innerHTML = html;
-    document.getElementById('fwLabel').textContent = firewallsLeft + ' firewall' + (firewallsLeft !== 1 ? 's' : '');
+  // ── ORDER UI ──
+  function updateOrderUI() {
+    const el = document.getElementById('orderSteps');
+    el.innerHTML = typeOrder.map((emoji, i) => {
+      let cls = 'order-step';
+      if (i < currentTypeIndex) cls += ' done';
+      else if (i === currentTypeIndex) cls += ' active';
+      return `<div class="${cls}">${emoji}</div>`;
+    }).join('<span style="color:var(--muted);font-size:12px;margin:0 2px;">→</span>');
   }
 
   function updateThreatCount() {
     const alive = threats.filter(t => !t.destroyed).length;
-    document.getElementById('threatsActive').textContent = alive;
+    document.getElementById('threatsLeft').textContent = alive;
+  }
+
+  // ── HINT ──
+  function showHint() {
+    if (gameOver) return;
+    elapsedMs += 5000;
+    showPenalty('+5s — hint used');
+    const overlay = document.getElementById('orderFlash');
+    const orderEl = document.getElementById('flashOrder');
+    const countdown = document.getElementById('flashCountdown');
+    orderEl.innerHTML = typeOrder.map((emoji, i) =>
+      `<span style="${i === currentTypeIndex ? 'border:2px solid var(--orange);border-radius:8px;padding:4px;' : i < currentTypeIndex ? 'opacity:0.4;' : ''}">${emoji}</span>${i < typeOrder.length - 1 ? '<span class="flash-arrow">→</span>' : ''}`
+    ).join('');
+    countdown.textContent = '2';
+    overlay.classList.add('show');
+    const token = roundToken;
+    let c = 2;
+    const tick = setInterval(() => {
+      if (token !== roundToken) { clearInterval(tick); overlay.classList.remove('show'); return; }
+      c--;
+      countdown.textContent = c;
+      if (c <= 0) { clearInterval(tick); overlay.classList.remove('show'); }
+    }, 1000);
+  }
+
+  // ── WIN ──
+  async function winGame() {
+    if (gameOver) return;
+    gameOver = true;
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    if (moveInterval)  { clearInterval(moveInterval);  moveInterval  = null; }
+
+    fireConfetti();
+    const timeStr = getTimeString();
+    const score = { name: playerName, time: elapsedMs, timeStr, day: getDayIndex() };
+    let scores = [];
+    try {
+      const stored = await window.storage.get('breach2_scores_' + getDayIndex());
+      if (stored) scores = JSON.parse(stored.value);
+    } catch(e) {}
+    scores.push(score);
+    scores.sort((a, b) => a.time - b.time);
+    try { await window.storage.set('breach2_scores_' + getDayIndex(), JSON.stringify(scores), true); } catch(e) {}
+
+    const rank = scores.findIndex(s => s.name === playerName && s.time === elapsedMs) + 1;
+    document.getElementById('winPlayerName').textContent = 'Well done, ' + playerName;
+    document.getElementById('winTime').textContent = timeStr;
+    document.getElementById('winRank').textContent = rank === 1 ? '🥇 Number 1 today!' : rank === 2 ? '🥈 2nd place' : rank === 3 ? '🥉 3rd place' : '#' + rank + ' on the leaderboard';
+    const lb = document.getElementById('winLeaderboard');
+    lb.innerHTML = scores.slice(0, 8).map((s, i) => {
+      const isYou = s.name === playerName && s.time === elapsedMs;
+      return `<div class="lb-row"><span class="lb-rank">${i+1}</span><span class="lb-name${isYou?' you':''}">${s.name}${isYou?' (you)':''}</span><span class="lb-time">${s.timeStr}</span></div>`;
+    }).join('');
+
+    setTimeout(() => showScreen('screen-win'), 600);
+  }
+
+  // ── UTILS ──
+  function getTimeString() {
+    const total = Math.floor(elapsedMs / 1000);
+    return Math.floor(total/60).toString().padStart(2,'0') + ':' + (total%60).toString().padStart(2,'0');
   }
 
   function updateTimerDisplay() {
-    const total = Math.floor(elapsedMs / 1000);
-    const m = Math.floor(total / 60).toString().padStart(2, '0');
-    const s = (total % 60).toString().padStart(2, '0');
-    document.getElementById('timerDisplay').textContent = m + ':' + s;
-  }
-
-  function getTimeString() {
-    const total = Math.floor(elapsedMs / 1000);
-    const m = Math.floor(total / 60).toString().padStart(2, '0');
-    const s = (total % 60).toString().padStart(2, '0');
-    return m + ':' + s;
-  }
-
-  function stopTimers() {
-    if (timerInterval) clearInterval(timerInterval);
-    if (tickInterval) clearInterval(tickInterval);
-    if (previewInterval) clearInterval(previewInterval);
+    document.getElementById('timerDisplay').textContent = getTimeString();
   }
 
   function showPenalty(msg) {
     const el = document.getElementById('penaltyFlash');
     el.textContent = msg;
     el.classList.add('show');
-    setTimeout(() => el.classList.remove('show'), 1500);
-  }
-
-  // ── WIN/LOSE ──
-  async function winGame() {
-    if (gameOver) return;
-    gameOver = true;
-    won = true;
-    stopTimers();
-    fireConfetti();
-
-    const timeStr = getTimeString();
-    const score = { name: playerName, time: elapsedMs, timeStr, day: getDayIndex() };
-    let scores = [];
-    try {
-      const stored = await window.storage.get('breach_scores_' + getDayIndex());
-      if (stored) scores = JSON.parse(stored.value);
-    } catch(e) {}
-    scores.push(score);
-    scores.sort((a, b) => a.time - b.time);
-    try {
-      await window.storage.set('breach_scores_' + getDayIndex(), JSON.stringify(scores), true);
-    } catch(e) {}
-
-    const rank = scores.findIndex(s => s.name === playerName && s.time === elapsedMs) + 1;
-    document.getElementById('winPlayerName').textContent = 'Well done, ' + playerName;
-    document.getElementById('winTime').textContent = timeStr;
-    document.getElementById('winRank').textContent = rank === 1 ? '🥇 Number 1 today!' : rank === 2 ? '🥈 2nd place' : rank === 3 ? '🥉 3rd place' : '#' + rank + ' on the leaderboard';
-
-    const lb = document.getElementById('winLeaderboard');
-    lb.innerHTML = scores.slice(0, 8).map((s, i) => {
-      const isYou = s.name === playerName && s.time === elapsedMs;
-      return '<div class="lb-row"><span class="lb-rank">' + (i+1) + '</span><span class="lb-name' + (isYou ? ' you' : '') + '">' + s.name + (isYou ? ' (you)' : '') + '</span><span class="lb-time">' + s.timeStr + '</span></div>';
-    }).join('');
-
-    setTimeout(() => showScreen('screen-win'), 800);
-  }
-
-  function loseGame() {
-    if (gameOver) return;
-    gameOver = true;
-    stopTimers();
-    const survived = threats.filter(t => t.destroyed).length;
-    document.getElementById('loseTime').textContent = getTimeString();
-    document.getElementById('loseStats').textContent = 'You destroyed ' + survived + ' of 8 threats';
-    setTimeout(() => showScreen('screen-lose'), 600);
-  }
-
-  function nextPuzzle() {
-    currentPuzzleIndex = (currentPuzzleIndex < 0 ? getDayIndex() : currentPuzzleIndex) + 1;
-    restartGame();
+    setTimeout(() => el.classList.remove('show'), 2000);
   }
 
   function restartGame() {
-    // initRound increments roundToken which invalidates any in-flight callbacks
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    if (moveInterval)  { clearInterval(moveInterval);  moveInterval  = null; }
+    currentRoundIndex = currentRoundIndex; // keep same round
     initRound();
     showScreen('screen-game');
   }
-  function goHome() { stopTimers(); showScreen('screen-name'); }
-  function showRules() { document.getElementById('rulesModal').classList.add('show'); }
-  function closeRules() { document.getElementById('rulesModal').classList.remove('show'); }
 
-  let simulating = false;
-
-  function submitDefence() {
-    if (gameOver) return;
-    if (firewallsPlaced.length === 0) {
-      showPenalty('Place some firewalls first!');
-      return;
-    }
-    if (simulating) return;
-    simulating = true;
-    if (timerInterval) clearInterval(timerInterval);
-    if (tickInterval) clearInterval(tickInterval);
-    document.querySelectorAll('.cell').forEach(c => c.classList.remove('path-hint'));
-    document.getElementById('timerLabel').textContent = 'Locked in';
-    document.getElementById('submitBtn').style.opacity = '0.4';
-    document.getElementById('submitBtn').textContent = '▶ Simulating...';
-    setTimeout(simulationTick, 600);
+  function nextRound() {
+    const base = currentRoundIndex >= 0 ? currentRoundIndex : getDayIndex();
+    currentRoundIndex = base + 1;
+    initRound();
+    showScreen('screen-game');
   }
 
-  function shareResult() {
-    const text = 'BREACH | Puzzle #' + (getDayIndex()+1) + ' | ' + getTimeString() + ' | Can you beat my time?';
-    if (navigator.share) navigator.share({ text });
-    else navigator.clipboard.writeText(text).then(() => showPenalty('Copied!'));
+  function goHome() {
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    if (moveInterval)  { clearInterval(moveInterval);  moveInterval  = null; }
+    showScreen('screen-name');
   }
 
   function showScreen(id) {
@@ -1112,48 +787,74 @@
     document.getElementById(id).classList.add('active');
   }
 
-  // CONFETTI (inline canvas, no worker)
+  function showRules() { document.getElementById('rulesModal').classList.add('show'); }
+  function closeRules() { document.getElementById('rulesModal').classList.remove('show'); }
+
+  function showSubmitButton() {
+    // Replace controls with a big submit button
+    const controls = document.querySelector('.controls');
+    controls.innerHTML = '<button class="btn-modal primary" style="grid-column:span 2; padding:1rem; font-size:1rem;" onclick="submitScore()">✅ Submit your time</button>';
+    fireConfetti();
+  }
+
+  async function submitScore() {
+    const timeStr = getTimeString();
+    const score = { name: playerName, time: elapsedMs, timeStr, day: getDayIndex() };
+    let scores = [];
+    try {
+      const stored = await window.storage.get('breach2_scores_' + getDayIndex());
+      if (stored) scores = JSON.parse(stored.value);
+    } catch(e) {}
+    scores.push(score);
+    scores.sort((a, b) => a.time - b.time);
+    try { await window.storage.set('breach2_scores_' + getDayIndex(), JSON.stringify(scores), true); } catch(e) {}
+
+    const rank = scores.findIndex(s => s.name === playerName && s.time === elapsedMs) + 1;
+    document.getElementById('winPlayerName').textContent = 'Well done, ' + playerName;
+    document.getElementById('winTime').textContent = timeStr;
+    document.getElementById('winRank').textContent = rank === 1 ? '🥇 Number 1 today!' : rank === 2 ? '🥈 2nd place' : rank === 3 ? '🥉 3rd place' : '#' + rank + ' on the leaderboard';
+    const lb = document.getElementById('winLeaderboard');
+    lb.innerHTML = scores.slice(0, 8).map((s, i) => {
+      const isYou = s.name === playerName && s.time === elapsedMs;
+      return '<div class="lb-row"><span class="lb-rank">'+(i+1)+'</span><span class="lb-name'+(isYou?' you':'')+'">'+ s.name+(isYou?' (you)':'')+'</span><span class="lb-time">'+s.timeStr+'</span></div>';
+    }).join('');
+    fireConfetti();
+    showScreen('screen-win');
+  }
+
+  function shareResult() {
+    const text = 'BREACH | Round #' + (getDayIndex()+1) + ' | ' + getTimeString() + ' | Can you beat my time?';
+    if (navigator.share) navigator.share({ text });
+    else navigator.clipboard.writeText(text).then(() => showPenalty('Copied!'));
+  }
+
+  // CONFETTI
   function fireConfetti() {
     const canvas = document.createElement('canvas');
     canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9000;';
     document.body.appendChild(canvas);
     const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
     const colors = ['#f5a623','#63b3ed','#9ae6b4','#ffffff','#1a2e5e','#f687b3'];
-    const particles = [];
-    for (let i = 0; i < 140; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: -10 - Math.random() * 100,
-        w: 8 + Math.random() * 8,
-        h: 4 + Math.random() * 4,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        vx: (Math.random() - 0.5) * 6,
-        vy: 2 + Math.random() * 4,
-        angle: Math.random() * Math.PI * 2,
-        spin: (Math.random() - 0.5) * 0.3,
-        gravity: 0.18
-      });
-    }
+    const particles = Array.from({length:140}, () => ({
+      x: Math.random()*canvas.width, y: -10 - Math.random()*100,
+      w: 8+Math.random()*8, h: 4+Math.random()*4,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      vx: (Math.random()-0.5)*6, vy: 2+Math.random()*4,
+      angle: Math.random()*Math.PI*2, spin: (Math.random()-0.5)*0.3, gravity: 0.18
+    }));
     let frame = 0;
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    (function draw() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
       particles.forEach(p => {
-        p.x += p.vx; p.y += p.vy; p.vy += p.gravity; p.angle += p.spin;
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.angle);
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = Math.max(0, 1 - frame / 180);
-        ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
-        ctx.restore();
+        p.x+=p.vx; p.y+=p.vy; p.vy+=p.gravity; p.angle+=p.spin;
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.angle);
+        ctx.fillStyle=p.color; ctx.globalAlpha=Math.max(0,1-frame/180);
+        ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore();
       });
       frame++;
-      if (frame < 180) requestAnimationFrame(draw);
-      else canvas.remove();
-    }
-    draw();
+      if (frame < 180) requestAnimationFrame(draw); else canvas.remove();
+    })();
   }
 
   document.getElementById('playerName').addEventListener('keydown', e => { if (e.key === 'Enter') startGame(); });
