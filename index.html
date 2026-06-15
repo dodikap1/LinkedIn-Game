@@ -416,6 +416,8 @@
     document.getElementById('timerDisplay').textContent = '00:00';
     document.getElementById('timerLabel').textContent = 'Get ready';
     document.getElementById('statusLeft').textContent = 'Memorise the order...';
+    const controls = document.querySelector('.controls');
+    if (controls) controls.innerHTML = '<button class="btn-control hint" onclick="showHint()">💡 Hint +5s</button><button class="btn-control" onclick="restartGame()">🔄 Restart</button><button class="btn-control" onclick="showRules()" style="grid-column:span 2;">❓ How to play</button>';
 
     const seed = currentRoundIndex >= 0 ? currentRoundIndex : getDayIndex();
     document.getElementById('puzzleNum').textContent = seed + 1;
@@ -718,7 +720,6 @@
     if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
     if (moveInterval)  { clearInterval(moveInterval);  moveInterval  = null; }
 
-    fireConfetti();
     const timeStr = getTimeString();
     const score = { name: playerName, time: elapsedMs, timeStr, day: getDayIndex() };
     let scores = [];
@@ -763,12 +764,18 @@
   function restartGame() {
     if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
     if (moveInterval)  { clearInterval(moveInterval);  moveInterval  = null; }
-    currentRoundIndex = currentRoundIndex; // keep same round
+    // Restore controls in case submit button replaced them
+    const controls = document.querySelector('.controls');
+    controls.innerHTML = '<button class="btn-control hint" onclick="showHint()">💡 Hint +5s</button><button class="btn-control" onclick="restartGame()">🔄 Restart</button><button class="btn-control" onclick="showRules()" style="grid-column:span 2;">❓ How to play</button>';
     initRound();
     showScreen('screen-game');
   }
 
   function nextRound() {
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    if (moveInterval)  { clearInterval(moveInterval);  moveInterval  = null; }
+    const controls = document.querySelector('.controls');
+    controls.innerHTML = '<button class="btn-control hint" onclick="showHint()">💡 Hint +5s</button><button class="btn-control" onclick="restartGame()">🔄 Restart</button><button class="btn-control" onclick="showRules()" style="grid-column:span 2;">❓ How to play</button>';
     const base = currentRoundIndex >= 0 ? currentRoundIndex : getDayIndex();
     currentRoundIndex = base + 1;
     initRound();
@@ -793,7 +800,6 @@
     // Replace controls with a big submit button
     const controls = document.querySelector('.controls');
     controls.innerHTML = '<button class="btn-modal primary" style="grid-column:span 2; padding:1rem; font-size:1rem;" onclick="submitScore()">✅ Submit your time</button>';
-    fireConfetti();
   }
 
   async function submitScore() {
