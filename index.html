@@ -132,10 +132,10 @@
     .order-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
     .order-steps { display: flex; gap: 6px; align-items: center; }
     .order-step {
-      width: 32px; height: 32px; border-radius: 8px;
+      width: 26px; height: 26px; border-radius: 6px;
       background: var(--navy-mid); border: 1.5px solid var(--cell-border);
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; transition: all 0.2s;
+      font-size: 0.9rem; transition: all 0.2s;
     }
     .order-step.active { border-color: var(--orange); background: rgba(245,166,35,0.15); box-shadow: 0 0 8px rgba(245,166,35,0.3); }
     .order-step.done { border-color: var(--green); background: rgba(56,161,105,0.15); opacity: 0.5; }
@@ -344,7 +344,7 @@
       <p style="margin-top:8px;">When all threats are cleared, hit <span class="hl">Submit</span> to lock in your time.</p>
       <p style="margin-top:8px;">💡 Hint re-shows the order (+5s penalty).</p>
       <div style="margin-top:12px; display:flex; flex-wrap:wrap; gap:8px; font-size:13px;">
-        <span>⚡ Lightning</span><span>🦠 Virus</span><span>🐌 Slowburn</span><span>🤖 AI threat</span><span>🎣 Phishing</span>
+        <span>⚡ Lightning</span><span>🦠 Virus</span><span>🐌 Slowburn</span><span>🤖 AI threat</span>
       </div>
     </div>
     <button class="btn-modal primary" onclick="closeRules()">Got it</button>
@@ -369,11 +369,10 @@
   let tappedInCurrentType = 0;
 
   const THREAT_TYPES = [
-    { emoji: '⚡', cls: 'fast',  count: 3 },
-    { emoji: '🦠', cls: 'std',   count: 3 },
-    { emoji: '🐌', cls: 'slow',  count: 3 },
+    { emoji: '⚡', cls: 'fast',  count: 4 },
+    { emoji: '🦠', cls: 'std',   count: 4 },
+    { emoji: '🐌', cls: 'slow',  count: 4 },
     { emoji: '🤖', cls: 'ai',    count: 3 },
-    { emoji: '🎣', cls: 'phish', count: 3 },
   ];
 
   // ── UTILS ──
@@ -464,7 +463,7 @@
     updateThreatCount();
 
     // Flash the order
-    showOrderFlash(2, () => {
+    showOrderFlash(3, () => {
       // After flash, start timer and movement
       startTimers();
     });
