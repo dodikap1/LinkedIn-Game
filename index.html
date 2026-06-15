@@ -612,6 +612,10 @@
     threat.destroyed = true;
     tappedInCurrentType++;
 
+    // Snapshot current type index so async callback uses correct value
+    const snapshotTypeIndex = currentTypeIndex;
+    const snapshotEmoji = currentTargetEmoji;
+
     // Animate the cell
     const cells = document.getElementById('grid').querySelectorAll('.cell');
     const icon = cells[r * GRID_SIZE + c].querySelector('.threat-icon');
@@ -620,11 +624,14 @@
     if (navigator.vibrate) navigator.vibrate(20);
 
     setTimeout(() => {
+      // Only act if we're still on the same type phase
+      if (currentTypeIndex !== snapshotTypeIndex) return;
+
       renderThreats();
       updateThreatCount();
 
       // Check if current type is fully eliminated
-      const remaining = threats.filter(t => !t.destroyed && t.emoji === currentTargetEmoji);
+      const remaining = threats.filter(t => !t.destroyed && t.emoji === snapshotEmoji);
       if (remaining.length === 0) {
         currentTypeIndex++;
         tappedInCurrentType = 0;
@@ -639,7 +646,7 @@
         }
         document.getElementById('statusLeft').textContent = 'Now tap: ' + typeOrder[currentTypeIndex];
         updateOrderUI();
-        renderThreats(); // re-render to update target highlights
+        renderThreats();
       }
     }, 350);
   }
